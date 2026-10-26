@@ -14,12 +14,10 @@ const t = {
     resident: 'Resident',
     alert: 'Alert',
     history: 'History',
+    control: 'Control',
     demoTools: 'Demo tools',
   },
   topbar: { timeLabel: 'Current time in the Philippines' },
-  demoBanner: {
-    text: 'DEMO: simulated data. Not connected to a real sensor, camera, gate or SMS gateway.',
-  },
   common: {
     simulated: 'Simulated',
     close: 'Close',
@@ -59,15 +57,6 @@ const t = {
     all_clear: { label: 'All clear' },
     test: { label: 'Test' },
   },
-  splash: {
-    sensor: 'Water level sensor',
-    camera: 'Monitoring camera',
-    sms: 'SMS gateway',
-    gate: 'Hydraulic gate',
-    simulatedOk: 'Simulated OK',
-    skip: 'Skip',
-    hint: 'Click anywhere or press any key to skip',
-  },
   home: {
     title: 'Home',
     camera: {
@@ -94,7 +83,6 @@ const t = {
       chartLabel: (cm) => `Line chart of the water level over the last 6 hours. Current level ${cm} cm.`,
     },
     sensor: {
-      title: 'Sensor health',
       battery: 'Battery',
       signal: 'Signal',
       camera: 'Camera',
@@ -117,7 +105,6 @@ const t = {
   },
   gate: {
     title: 'Hydraulic gate',
-    barLabel: 'Hydraulic gate status',
     displayOnly: 'Display only',
     state: { open: 'Open', closed: 'Closed' },
     updated: (age) => `State ${age}`,
@@ -125,17 +112,18 @@ const t = {
     offlineNote: 'No gate signal. The last known state is shown dimmed.',
     lastChanged: 'Last changed',
     lastNote: 'Note',
-    lastFive: 'Last 5 changes',
-    chipLevel: (cm) => `at ${cm} cm`,
-    viewAll: (n) => `View all (${n})`,
-    hideAll: 'Hide full timeline',
-    fullTimeline: (n) => `Full gate timeline (${n} changes)`,
+    historyTitle: (n) => `Gate history (${n} changes)`,
     noEvents: 'No gate changes recorded.',
     timelineCaption: 'Gate state changes',
     colTime: 'Time',
     colState: 'State',
     colLevel: 'Level (cm)',
     colNote: 'Note',
+  },
+  control: {
+    title: 'Control',
+    sensorTitle: 'Sensor data',
+    note: 'Monitoring only. This app cannot open, close or change the hydraulic gate.',
   },
   resident: {
     title: 'Resident',

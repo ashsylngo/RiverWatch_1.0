@@ -10,6 +10,7 @@ const ITEMS = [
   { to: '/resident', icon: 'users', label: t.nav.resident },
   { to: '/alert', icon: 'message', label: t.nav.alert },
   { to: '/history', icon: 'history', label: t.nav.history },
+  { to: '/control', icon: 'gauge', label: t.nav.control },
 ];
 
 export default function Sidebar({ demoOpen, onToggleDemo }) {

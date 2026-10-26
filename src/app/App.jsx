@@ -7,6 +7,7 @@ import Home from '../features/home/Home.jsx';
 import Resident from '../features/resident/Resident.jsx';
 import Alert from '../features/alert/Alert.jsx';
 import History from '../features/history/History.jsx';
+import Control from '../features/control/Control.jsx';
 import { hasSeenSplash, markSplashSeen } from '../lib/data/index.js';
 import t from '../strings/en.js';
 
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/resident" element={<Resident />} />
           <Route path="/alert" element={<Alert />} />
           <Route path="/history" element={<History />} />
+          <Route path="/control" element={<Control />} />
           <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </Shell>

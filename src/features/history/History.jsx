@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Tabs from '../../components/ui/Tabs.jsx';
 import LevelHistory from './LevelHistory.jsx';
 import AlertsLog from './AlertsLog.jsx';
-import GateBar from './GateBar.jsx';
 import t from '../../strings/en.js';
 
 const TABS = [
@@ -24,7 +23,6 @@ export default function History() {
       >
         {tab === 'level' ? <LevelHistory /> : <AlertsLog />}
       </div>
-      <GateBar />
     </div>
   );
 }

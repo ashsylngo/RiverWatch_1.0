@@ -8,7 +8,6 @@ import CameraPanel from './CameraPanel.jsx';
 import LevelCard from './LevelCard.jsx';
 import TrendCard from './TrendCard.jsx';
 import GateCard from './GateCard.jsx';
-import SensorCard from './SensorCard.jsx';
 import t from '../../strings/en.js';
 
 function HomeBody({ d }) {
@@ -29,7 +28,6 @@ function HomeBody({ d }) {
           <LevelCard d={d} tier={tier} fresh={sensorFresh} />
           <TrendCard d={d} />
           <GateCard gate={d.gate} lastEvent={d.gateLastEvent} fresh={gateFresh} now={now} />
-          <SensorCard station={d.station} fresh={sensorFresh} now={now} />
         </div>
       </div>
     </>
