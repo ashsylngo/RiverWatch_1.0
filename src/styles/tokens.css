@@ -1,0 +1,47 @@
+/* src/styles/tokens.css
+   Palette from PLAN.md Section 5 (draft). All colors in the app come from these variables. */
+:root {
+  /* Brand: pastel blue */
+  --blue-50:  #F2F9FD;
+  --blue-100: #DDEFFA;
+  --blue-200: #BFE0F5;
+  --blue-300: #9CCDEC;
+  --blue-600: #2F6F9F;   /* primary button, links (white text on it) */
+  --blue-700: #245A82;
+
+  /* Brand: pastel green */
+  --green-50:  #F2FAF5;
+  --green-100: #DDF3E4;
+  --green-200: #BFE8CC;
+  --green-300: #9AD9B0;
+  --green-600: #2E7D5B;  /* secondary accent (white text on it) */
+  --green-700: #236349;
+
+  /* Neutrals */
+  --ink:       #1E3A4C;  /* main text, dark navy */
+  --ink-soft:  #4B6477;  /* secondary text */
+  --line:      #C9DCE8;  /* borders */
+  --surface:   #FFFFFF;
+  --page:      #F2F9FD;  /* app background (blue-50) */
+  --sidebar:   #DDEFFA;  /* blue-100 */
+  --topbar:    #DDF3E4;  /* green-100 */
+
+  /* Status (separate from brand; always icon + text) */
+  --status-normal-fg:   #1B7A3A;  --status-normal-bg:   #E3F4E8;
+  --status-watch-fg:    #7A5C00;  --status-watch-bg:    #FFF4CC;
+  --status-warning-fg:  #9A4B00;  --status-warning-bg:  #FFE5CF;
+  --status-critical-fg: #B3261E;  --status-critical-bg: #FDE3E1;
+  --fresh-live-fg:  #1B7A3A;
+  --fresh-stale-fg: #9A5B00;
+  --fresh-off-fg:   #5B6770;
+  --demo-banner-bg: #FFF4CC;  --demo-banner-fg: #5C4500;
+
+  /* Type and spacing */
+  --font: system-ui, "Segoe UI", Roboto, Arial, sans-serif;  /* no web fonts */
+  --radius: 12px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px;
+
+  /* Derived from --ink only (transparency for shadows and dialog backdrops). No new hues. */
+  --shadow: 0 1px 2px color-mix(in srgb, var(--ink) 14%, transparent), 0 4px 14px color-mix(in srgb, var(--ink) 8%, transparent);
+  --overlay: color-mix(in srgb, var(--ink) 45%, transparent);
+}
