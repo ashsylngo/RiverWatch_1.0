@@ -17,9 +17,7 @@ export default function Sidebar({ demoOpen, onToggleDemo }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
-        <div className="brand-tile">
-          <Logo src={brand.mark} className="logo-mark" />
-        </div>
+        <Logo src={brand.mark} className="logo-mark" />
       </div>
       <nav aria-label={t.nav.label}>
         <ul className="nav-list">
@@ -35,7 +33,7 @@ export default function Sidebar({ demoOpen, onToggleDemo }) {
       </nav>
       {DEMO_TOOLS_ENABLED ? (
         <div className="sidebar-foot">
-          <Button variant="secondary" icon="sliders" className="btn-block" aria-expanded={demoOpen} onClick={onToggleDemo}>
+          <Button variant="ghost" icon="sliders" className="btn-block" aria-expanded={demoOpen} onClick={onToggleDemo}>
             {t.nav.demoTools}
           </Button>
         </div>

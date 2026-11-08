@@ -16,7 +16,7 @@ import t from '../../strings/en.js';
 
 const RANGES = ['24h', '7d', '30d'];
 const PAGE_SIZE = 12;
-const tick = { fontSize: 11, fill: 'var(--ink-soft)' };
+const tick = { fontSize: 11, fill: 'var(--text-muted)' };
 
 function summarize(d) {
   const { readings, settings: s } = d;
@@ -56,12 +56,12 @@ function Chart({ d }) {
     <div className="chart-box" role="img" aria-label={t.history.chartLabel(t.history.range[range])}>
       <ResponsiveContainer width="100%" height={320}>
         <AreaChart data={data} margin={{ top: 8, right: 16, bottom: 0, left: 0 }}>
-          <CartesianGrid stroke="var(--line)" strokeDasharray="3 3" vertical={false} />
+          <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
           {bands.map(([tier, y1, y2]) => (
             <ReferenceArea key={tier} y1={y1} y2={y2} fill={`var(--status-${tier}-bg)`} fillOpacity={0.55} ifOverflow="hidden" />
           ))}
-          <XAxis dataKey="t" type="number" scale="time" domain={[d.since, d.until]} tickFormatter={fmt} tick={tick} tickCount={7} stroke="var(--line)" />
-          <YAxis domain={[0, yMax]} ticks={yTicks} tick={tick} width={42} stroke="var(--line)" />
+          <XAxis dataKey="t" type="number" scale="time" domain={[d.since, d.until]} tickFormatter={fmt} tick={tick} tickCount={7} stroke="var(--border)" />
+          <YAxis domain={[0, yMax]} ticks={yTicks} tick={tick} width={42} stroke="var(--border)" />
           {lines.map(([tier, y, color]) => (
             <ReferenceLine
               key={tier}
@@ -74,9 +74,9 @@ function Chart({ d }) {
           <Tooltip
             labelFormatter={(v) => formatDateTime(v)}
             formatter={(v) => [`${v} cm`, t.history.levelCm]}
-            contentStyle={{ borderRadius: 8, border: '1px solid var(--line)', color: 'var(--ink)' }}
+            contentStyle={{ borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', color: 'var(--text)' }}
           />
-          <Area type="monotone" dataKey="level_cm" stroke="var(--blue-600)" strokeWidth={2} fill="var(--blue-300)" fillOpacity={0.45} dot={false} isAnimationActive={false} />
+          <Area type="monotone" dataKey="level_cm" stroke="var(--primary)" strokeWidth={2} fill="var(--primary)" fillOpacity={0.2} dot={false} isAnimationActive={false} />
         </AreaChart>
       </ResponsiveContainer>
     </div>

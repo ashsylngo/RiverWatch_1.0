@@ -79,7 +79,7 @@ export function ConfirmDialog({
       size="md"
       footer={(
         <>
-          <Button variant="secondary" onClick={onCancel} disabled={busy} data-autofocus>{cancelLabel}</Button>
+          <Button variant="ghost" onClick={onCancel} disabled={busy} data-autofocus>{cancelLabel}</Button>
           <Button variant={danger ? 'danger' : 'primary'} icon={icon} onClick={onConfirm} disabled={busy}>
             {busy ? t.common.working : confirmLabel}
           </Button>

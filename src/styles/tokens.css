@@ -1,30 +1,19 @@
 /* src/styles/tokens.css
-   Palette from PLAN.md Section 5 (draft). All colors in the app come from these variables. */
+   Implements design.md (Flat 2.0 / Semi-flat) as in PLAN.md Section 5.
+   Every color, radius, shadow and font in the app comes from these variables. No hex values anywhere else.
+   Status tokens are separate from the brand: brand colors never mean status. */
 :root {
-  /* Brand: pastel blue */
-  --blue-50:  #F2F9FD;
-  --blue-100: #DDEFFA;
-  --blue-200: #BFE0F5;
-  --blue-300: #9CCDEC;
-  --blue-600: #2F6F9F;   /* primary button, links (white text on it) */
-  --blue-700: #245A82;
-
-  /* Brand: pastel green */
-  --green-50:  #F2FAF5;
-  --green-100: #DDF3E4;
-  --green-200: #BFE8CC;
-  --green-300: #9AD9B0;
-  --green-600: #2E7D5B;  /* secondary accent (white text on it) */
-  --green-700: #236349;
-
-  /* Neutrals */
-  --ink:       #1E3A4C;  /* main text, dark navy */
-  --ink-soft:  #4B6477;  /* secondary text */
-  --line:      #C9DCE8;  /* borders */
-  --surface:   #FFFFFF;
-  --page:      #F2F9FD;  /* app background (blue-50) */
-  --sidebar:   #DDEFFA;  /* blue-100 */
-  --topbar:    #DDF3E4;  /* green-100 */
+  /* Brand (design.md) */
+  --primary:        #3f6df0;  /* primary button, active tab, focus ring */
+  --on-primary:     #000000;  /* text on primary (as specified in design.md) */
+  --accent:         #ff7a45;  /* secondary button, notification count badge */
+  --on-accent:      #000000;
+  --bg:             #eef1f6;  /* page */
+  --surface:        #ffffff;  /* cards, sidebar, top bar, panels */
+  --surface-strong: #f4f6fa;  /* table headers, hover, inset areas */
+  --border:         #dbe1ea;
+  --text:           #1c2430;
+  --text-muted:     #5a6472;
 
   /* Status (separate from brand; always icon + text) */
   --status-normal-fg:   #1B7A3A;  --status-normal-bg:   #E3F4E8;
@@ -34,14 +23,19 @@
   --fresh-live-fg:  #1B7A3A;
   --fresh-stale-fg: #9A5B00;
   --fresh-off-fg:   #5B6770;
-  --demo-banner-bg: #FFF4CC;  --demo-banner-fg: #5C4500;
 
-  /* Type and spacing */
-  --font: system-ui, "Segoe UI", Roboto, Arial, sans-serif;  /* no web fonts */
-  --radius: 12px;
+  /* Type */
+  --font:      'Roboto', system-ui, 'Segoe UI', Arial, sans-serif;
+  --font-mono: 'Roboto Mono', ui-monospace, Consolas, monospace;
+
+  /* Radius and spacing */
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 16px;
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px;
 
-  /* Derived from --ink only (transparency for shadows and dialog backdrops). No new hues. */
-  --shadow: 0 1px 2px color-mix(in srgb, var(--ink) 14%, transparent), 0 4px 14px color-mix(in srgb, var(--ink) 8%, transparent);
-  --overlay: color-mix(in srgb, var(--ink) 45%, transparent);
+  /* Elevation: the six shadow values listed in design.md (under its "Radius scale" heading, which
+     really holds shadows) read as three pairs, a tight shadow plus a soft one */
+  --shadow-1: 0 1px 2px rgba(28,36,48,0.06), 0 4px 8px rgba(28,36,48,0.06);     /* cards at rest */
+  --shadow-2: 0 2px 4px rgba(28,36,48,0.07), 0 10px 24px rgba(28,36,48,0.10);   /* hover, dropdowns, notification panel */
+  --shadow-3: 0 4px 8px rgba(28,36,48,0.08), 0 24px 48px rgba(28,36,48,0.14);   /* modals, Demo tools drawer */
+  --overlay:  color-mix(in srgb, var(--text) 45%, transparent);                 /* dialog backdrop */
 }

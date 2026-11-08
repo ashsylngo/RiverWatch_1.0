@@ -4,7 +4,7 @@ import { formatShortTime } from '../../lib/time.js';
 import t from '../../strings/en.js';
 
 const SIX_HOURS = 6 * 3600 * 1000;
-const tick = { fontSize: 11, fill: 'var(--ink-soft)' };
+const tick = { fontSize: 11, fill: 'var(--text-muted)' };
 
 export default function TrendCard({ d }) {
   const { series, settings: s, latest } = d;
@@ -24,7 +24,7 @@ export default function TrendCard({ d }) {
       <div className="chart-box" role="img" aria-label={t.home.trend.chartLabel(Math.round(latest.level_cm))}>
         <ResponsiveContainer width="100%" height={190}>
           <LineChart data={series} margin={{ top: 6, right: 10, bottom: 0, left: 0 }}>
-            <CartesianGrid stroke="var(--line)" strokeDasharray="3 3" vertical={false} />
+            <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
             <XAxis
               dataKey="t"
               type="number"
@@ -33,9 +33,9 @@ export default function TrendCard({ d }) {
               tickFormatter={formatShortTime}
               tick={tick}
               tickCount={4}
-              stroke="var(--line)"
+              stroke="var(--border)"
             />
-            <YAxis domain={[0, yMax]} ticks={yTicks} tick={tick} width={38} stroke="var(--line)" />
+            <YAxis domain={[0, yMax]} ticks={yTicks} tick={tick} width={38} stroke="var(--border)" />
             {lines.map(([tier, y, color]) => (
               <ReferenceLine
                 key={tier}
@@ -45,7 +45,7 @@ export default function TrendCard({ d }) {
                 label={{ value: `${t.status[tier].label} ${y}`, position: 'insideTopLeft', fontSize: 10, fill: color }}
               />
             ))}
-            <Line type="linear" dataKey="level_cm" stroke="var(--blue-600)" strokeWidth={2} dot={false} isAnimationActive={false} />
+            <Line type="linear" dataKey="level_cm" stroke="var(--primary)" strokeWidth={2} dot={false} isAnimationActive={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>

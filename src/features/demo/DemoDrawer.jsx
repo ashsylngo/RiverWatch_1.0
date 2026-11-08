@@ -59,7 +59,7 @@ export default function DemoDrawer({ onClose }) {
       <Group title={d.silent} hint={d.silentHint}>
         <Button onClick={sc.makeStale}>{d.makeStale}</Button>
         <Button onClick={sc.makeOffline}>{d.makeOffline}</Button>
-        <Button variant="secondary" onClick={sc.restoreSensor} disabled={snap.sensorMode === 'live'}>{d.restore}</Button>
+        <Button variant="ghost" onClick={sc.restoreSensor} disabled={snap.sensorMode === 'live'}>{d.restore}</Button>
       </Group>
       <Group title={d.camera} hint={d.cameraHint}>
         <Button onClick={sc.cameraLost} disabled={!snap.cameraOk}>{d.cameraBtn}</Button>

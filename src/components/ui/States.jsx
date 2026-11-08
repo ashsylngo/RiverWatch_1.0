@@ -29,7 +29,7 @@ export function ErrorState({ title = t.common.errorTitle, text = t.common.errorT
       <Icon name="octagon" size={36} strokeWidth={1.5} />
       <h3 className="state-title">{title}</h3>
       <p className="state-text">{text}</p>
-      {onRetry ? <Button variant="secondary" icon="refresh" onClick={onRetry}>{t.common.retry}</Button> : null}
+      {onRetry ? <Button variant="ghost" icon="refresh" onClick={onRetry}>{t.common.retry}</Button> : null}
     </div>
   );
 }

@@ -21,7 +21,7 @@ export default function SmsPreview({ d, message, segments, recipientCount, canSe
       <p className="recipient-line">{t.alert.willSendTo(recipientCount)}</p>
       <div className="stack-actions">
         <Button variant="primary" icon="send" onClick={onSend} disabled={!canSend}>{t.alert.send}</Button>
-        <Button icon="send" onClick={onSendTest} disabled={!message.trim()}>{t.alert.sendTest}</Button>
+        <Button variant="secondary" icon="send" onClick={onSendTest} disabled={!message.trim()}>{t.alert.sendTest}</Button>
       </div>
       {!canSend && recipientCount === 0 ? <p className="field-hint">{t.alert.noRecipients}</p> : null}
       <p className="muted small last-alert">

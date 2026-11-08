@@ -89,7 +89,7 @@ export default function ImportDialog({ defaultAddress, onImport, onClose }) {
           />
         </div>
         <div className="row-gap">
-          <Button onClick={preview} disabled={!text.trim()}>{t.resident.importPreview}</Button>
+          <Button variant="secondary" onClick={preview} disabled={!text.trim()}>{t.resident.importPreview}</Button>
           <Button variant="ghost" onClick={useSample}>{t.resident.importUseSample}</Button>
         </div>
       </div>
