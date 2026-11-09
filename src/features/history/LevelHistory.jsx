@@ -12,7 +12,7 @@ import Card from '../../components/ui/Card.jsx';
 import Table from '../../components/ui/Table.jsx';
 import { StatusBadge } from '../../components/ui/Badge.jsx';
 import { Async, EmptyState } from '../../components/ui/States.jsx';
-import t from '../../strings/en.js';
+import { useLocale, useT } from '../../lib/i18n.jsx';
 
 const RANGES = ['24h', '7d', '30d'];
 const PAGE_SIZE = 12;
@@ -33,6 +33,7 @@ function summarize(d) {
 }
 
 function Chart({ d }) {
+  const { t, lang, num } = useLocale();
   const { settings: s, readings, range } = d;
   const max = readings.reduce((m, r) => Math.max(m, r.level_cm), 0);
   const yMax = Math.ceil(Math.max(s.critical_cm * 1.2, max * 1.08) / 50) * 50;
@@ -43,7 +44,7 @@ function Chart({ d }) {
     ['warning', s.warning_cm, s.critical_cm],
     ['critical', s.critical_cm, yMax],
   ];
-  const fmt = range === '24h' ? formatShortTime : formatShortDate;
+  const fmt = (v) => (range === '24h' ? formatShortTime(v, lang) : formatShortDate(v, lang));
   const lines = [
     ['watch', s.watch_cm, 'var(--status-watch-fg)'],
     ['warning', s.warning_cm, 'var(--status-warning-fg)'],
@@ -68,12 +69,12 @@ function Chart({ d }) {
               y={y}
               stroke={color}
               strokeDasharray="5 3"
-              label={{ value: `${tierLabel(tier)} ${y} cm`, position: 'insideTopRight', fontSize: 11, fill: color }}
+              label={{ value: `${tierLabel(tier, t)} ${num(y)} ${t.home.level.unit}`, position: 'insideTopRight', fontSize: 11, fill: color }}
             />
           ))}
           <Tooltip
-            labelFormatter={(v) => formatDateTime(v)}
-            formatter={(v) => [`${v} cm`, t.history.levelCm]}
+            labelFormatter={(v) => formatDateTime(v, lang)}
+            formatter={(v) => [`${num(v)} ${t.home.level.unit}`, t.history.levelCm]}
             contentStyle={{ borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', color: 'var(--text)' }}
           />
           <Area type="monotone" dataKey="level_cm" stroke="var(--primary)" strokeWidth={2} fill="var(--primary)" fillOpacity={0.2} dot={false} isAnimationActive={false} />
@@ -84,6 +85,7 @@ function Chart({ d }) {
 }
 
 function Body({ d, range }) {
+  const { t, lang, num } = useLocale();
   const [page, setPage] = useState(0);
   const sum = useMemo(() => summarize(d), [d]);
   const rowsDesc = useMemo(() => d.readings.slice().reverse(), [d.readings]);
@@ -103,8 +105,8 @@ function Body({ d, range }) {
     <>
       <div className="summary-grid">
         <Card title={t.history.highest}>
-          <p className="big-num">{sum.peak.level_cm}<span className="level-unit"> {t.home.level.unit}</span></p>
-          <p className="muted small">{t.history.at(formatDateTime(sum.peak.t))}</p>
+          <p className="big-num">{num(sum.peak.level_cm)}<span className="level-unit"> {t.home.level.unit}</span></p>
+          <p className="muted small">{t.history.at(formatDateTime(sum.peak.t, lang))}</p>
           <StatusBadge tier={sum.peak.status} />
         </Card>
         <Card title={t.history.timeAtStatus}>
@@ -112,13 +114,13 @@ function Body({ d, range }) {
             {TIERS.map((tier) => (
               <li key={tier}>
                 <StatusBadge tier={tier} />
-                <span>{sum.ms[tier] > 0 ? formatDuration(sum.ms[tier]) : t.history.none}</span>
+                <span>{sum.ms[tier] > 0 ? formatDuration(sum.ms[tier], t) : t.history.none}</span>
               </li>
             ))}
           </ul>
         </Card>
         <Card title={t.history.alertsSent}>
-          <p className="big-num">{sum.alerts}</p>
+          <p className="big-num">{num(sum.alerts)}</p>
           <p className="muted small">{t.history.alertsRangeNote(sum.tests)}</p>
         </Card>
       </div>
@@ -143,8 +145,8 @@ function Body({ d, range }) {
           <tbody>
             {shown.map((r) => (
               <tr key={r.id}>
-                <td>{formatDateTime(r.t)}</td>
-                <td>{r.level_cm}</td>
+                <td>{formatDateTime(r.t, lang)}</td>
+                <td>{num(r.level_cm)}</td>
                 <td><StatusBadge tier={r.status} /></td>
               </tr>
             ))}
@@ -161,6 +163,7 @@ function Body({ d, range }) {
 }
 
 export default function LevelHistory() {
+  const t = useT();
   const [range, setRange] = useState('24h');
   const state = useData(() => getHistory(range), ['alerts'], [range]);
   return (

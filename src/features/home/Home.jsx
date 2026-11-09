@@ -8,7 +8,7 @@ import CameraPanel from './CameraPanel.jsx';
 import LevelCard from './LevelCard.jsx';
 import TrendCard from './TrendCard.jsx';
 import GateCard from './GateCard.jsx';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
 function HomeBody({ d }) {
   const now = useNow();
@@ -35,6 +35,7 @@ function HomeBody({ d }) {
 }
 
 export default function Home() {
+  const t = useT();
   const state = useData(() => getHome(), ['readings', 'gate', 'station', 'alerts']);
   return (
     <div className="page">

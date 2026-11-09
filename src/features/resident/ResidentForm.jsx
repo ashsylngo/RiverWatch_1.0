@@ -5,11 +5,12 @@ import Field from '../../components/ui/Field.jsx';
 import Switch from '../../components/ui/Switch.jsx';
 import Icon from '../../components/ui/Icon.jsx';
 import { normalizePhone } from '../../lib/phone.js';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
 const PUROKS = [1, 2, 3, 4, 5, 6];
 
 export default function ResidentForm({ mode, resident, defaultAddress, onSave, onClose }) {
+  const t = useT();
   const editing = mode === 'edit';
   const [name, setName] = useState(editing ? resident.name : '');
   const [purok, setPurok] = useState(editing ? resident.purok : 1);
@@ -19,7 +20,7 @@ export default function ResidentForm({ mode, resident, defaultAddress, onSave, o
   const [active, setActive] = useState(editing ? resident.active : true);
   const [errors, setErrors] = useState({});
   const [busy, setBusy] = useState(false);
-  const [saveError, setSaveError] = useState('');
+  const [saveError, setSaveError] = useState(false); // errors are kept as codes and translated when drawn
 
   function onPurokChange(value) {
     const p = Number(value);
@@ -29,11 +30,11 @@ export default function ResidentForm({ mode, resident, defaultAddress, onSave, o
 
   function validate() {
     const e = {};
-    if (!name.trim()) e.name = t.resident.errName;
-    else if (name.trim().length > 80) e.name = t.resident.errNameLong;
-    if (!PUROKS.includes(Number(purok))) e.purok = t.resident.errPurok;
+    if (!name.trim()) e.name = 'errName';
+    else if (name.trim().length > 80) e.name = 'errNameLong';
+    if (!PUROKS.includes(Number(purok))) e.purok = 'errPurok';
     const unchangedPlaceholder = editing && phone.trim() === resident.phone;
-    if (!normalizePhone(phone) && !unchangedPlaceholder) e.phone = t.resident.errPhone;
+    if (!normalizePhone(phone) && !unchangedPlaceholder) e.phone = 'errPhone';
     return e;
   }
 
@@ -43,7 +44,7 @@ export default function ResidentForm({ mode, resident, defaultAddress, onSave, o
     setErrors(e);
     if (Object.keys(e).length) return;
     setBusy(true);
-    setSaveError('');
+    setSaveError(false);
     try {
       await onSave({
         name: name.trim(),
@@ -53,7 +54,7 @@ export default function ResidentForm({ mode, resident, defaultAddress, onSave, o
         active,
       });
     } catch {
-      setSaveError(t.resident.saveError);
+      setSaveError(true);
       setBusy(false);
     }
   }
@@ -72,10 +73,10 @@ export default function ResidentForm({ mode, resident, defaultAddress, onSave, o
       )}
     >
       <form id="resident-form" className="form-stack" onSubmit={submit} noValidate>
-        <Field label={t.resident.fieldName} error={errors.name}>
+        <Field label={t.resident.fieldName} error={errors.name ? t.resident[errors.name] : undefined}>
           <input className="input" value={name} maxLength={80} autoComplete="off" data-autofocus onChange={(e) => setName(e.target.value)} />
         </Field>
-        <Field label={t.resident.fieldPurok} error={errors.purok}>
+        <Field label={t.resident.fieldPurok} error={errors.purok ? t.resident[errors.purok] : undefined}>
           <select className="input" value={purok} onChange={(e) => onPurokChange(e.target.value)}>
             {PUROKS.map((p) => <option key={p} value={p}>{t.resident.purokName(p)}</option>)}
           </select>
@@ -89,11 +90,11 @@ export default function ResidentForm({ mode, resident, defaultAddress, onSave, o
             onChange={(e) => { setAddress(e.target.value); setAddressTouched(true); }}
           />
         </Field>
-        <Field label={t.resident.fieldPhone} hint={t.resident.phoneHint} error={errors.phone}>
+        <Field label={t.resident.fieldPhone} hint={t.resident.phoneHint} error={errors.phone ? t.resident[errors.phone] : undefined}>
           <input className="input" inputMode="tel" value={phone} maxLength={20} autoComplete="off" onChange={(e) => setPhone(e.target.value)} />
         </Field>
         <Switch checked={active} onChange={setActive} label={t.resident.fieldActive} />
-        {saveError ? <p className="field-error" role="alert"><Icon name="octagon" size={16} />{saveError}</p> : null}
+        {saveError ? <p className="field-error" role="alert"><Icon name="octagon" size={16} />{t.resident.saveError}</p> : null}
       </form>
     </Modal>
   );

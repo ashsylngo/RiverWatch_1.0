@@ -6,9 +6,10 @@ import Drawer from '../../components/ui/Drawer.jsx';
 import DeliveryTable, { deliverySummary } from '../../components/ui/DeliveryTable.jsx';
 import { AlertLevelBadge, SimulatedTag } from '../../components/ui/Badge.jsx';
 import { Async, EmptyState } from '../../components/ui/States.jsx';
-import t from '../../strings/en.js';
+import { useLocale, useT } from '../../lib/i18n.jsx';
 
 function Body({ detail }) {
+  const { t, lang } = useLocale();
   if (!detail) return <EmptyState icon="info" title={t.delivery.missingTitle} text={t.delivery.missingText} />;
   const { alert: a, deliveries, hotlines } = detail;
   const s = deliverySummary(deliveries);
@@ -16,7 +17,7 @@ function Body({ detail }) {
     <>
       <dl className="kv kv-wide">
         <dt>{t.history.colSent}</dt>
-        <dd>{formatDateTimeSec(a.sent_at)}</dd>
+        <dd>{formatDateTimeSec(a.sent_at, lang)}</dd>
         <dt>{t.history.colAlertLevel}</dt>
         <dd><AlertLevelBadge level={a.level} /></dd>
         <dt>{t.history.colLanguage}</dt>
@@ -57,6 +58,7 @@ function Body({ detail }) {
 }
 
 export default function AlertDetail({ alertId, onClose }) {
+  const t = useT();
   const state = useData(() => getAlertDetail(alertId), ['alerts'], [alertId]);
   return (
     <Drawer title={t.history.detailTitle} onClose={onClose} size="lg">

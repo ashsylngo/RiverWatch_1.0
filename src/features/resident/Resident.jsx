@@ -12,24 +12,25 @@ import { ConfirmDialog } from '../../components/ui/Modal.jsx';
 import ResidentTable from './ResidentTable.jsx';
 import ResidentForm from './ResidentForm.jsx';
 import ImportDialog from './ImportDialog.jsx';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
 const PUROKS = [1, 2, 3, 4, 5, 6];
 
 function ResidentBody({ d }) {
+  const t = useT();
   const [query, setQuery] = useState('');
   const [purok, setPurok] = useState('all');
   const [form, setForm] = useState(null); // { mode: 'add' | 'edit', resident? }
   const [removing, setRemoving] = useState(null);
   const [importing, setImporting] = useState(false);
-  const [notice, setNotice] = useState('');
-  const [actionError, setActionError] = useState('');
+  const [notice, setNotice] = useState(null); // { key, arg }: kept as a code so it follows a language switch
+  const [actionError, setActionError] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [removeError, setRemoveError] = useState('');
+  const [removeError, setRemoveError] = useState(false);
 
   useEffect(() => {
     if (!notice) return undefined;
-    const id = setTimeout(() => setNotice(''), 6000);
+    const id = setTimeout(() => setNotice(null), 6000);
     return () => clearTimeout(id);
   }, [notice]);
 
@@ -48,23 +49,23 @@ function ResidentBody({ d }) {
   const activeCount = d.residents.filter((r) => r.active).length;
 
   async function onToggle(resident, active) {
-    setActionError('');
+    setActionError(false);
     try {
       await updateResident(resident.id, { active });
     } catch {
-      setActionError(t.resident.actionError);
+      setActionError(true);
     }
   }
 
   async function confirmDelete() {
     setBusy(true);
-    setRemoveError('');
+    setRemoveError(false);
     try {
       await deleteResident(removing.id);
-      setNotice(t.resident.deleted(removing.name));
+      setNotice({ key: 'deleted', arg: removing.name });
       setRemoving(null);
     } catch {
-      setRemoveError(t.resident.actionError);
+      setRemoveError(true);
     } finally {
       setBusy(false);
     }
@@ -111,9 +112,9 @@ function ResidentBody({ d }) {
         </p>
 
         <div role="status" className="inline-status">
-          {notice ? <span className="notice notice-ok"><Icon name="checkCircle" size={16} />{notice}</span> : null}
+          {notice ? <span className="notice notice-ok"><Icon name="checkCircle" size={16} />{t.resident[notice.key](notice.arg)}</span> : null}
         </div>
-        {actionError ? <p className="field-error" role="alert"><Icon name="octagon" size={16} />{actionError}</p> : null}
+        {actionError ? <p className="field-error" role="alert"><Icon name="octagon" size={16} />{t.resident.actionError}</p> : null}
 
         {total === 0 ? (
           <EmptyState icon="users" title={t.resident.emptyNoneTitle} text={t.resident.emptyNoneText}
@@ -125,7 +126,7 @@ function ResidentBody({ d }) {
           <ResidentTable
             residents={filtered}
             onEdit={(r) => setForm({ mode: 'edit', resident: r })}
-            onDelete={(r) => { setRemoveError(''); setRemoving(r); }}
+            onDelete={(r) => { setRemoveError(false); setRemoving(r); }}
             onToggle={onToggle}
           />
         )}
@@ -141,10 +142,10 @@ function ResidentBody({ d }) {
           onSave={async (values) => {
             if (form.mode === 'add') {
               await addResident(values);
-              setNotice(t.resident.added(values.name));
+              setNotice({ key: 'added', arg: values.name });
             } else {
               await updateResident(form.resident.id, values);
-              setNotice(t.resident.updated(values.name));
+              setNotice({ key: 'updated', arg: values.name });
             }
             setForm(null);
           }}
@@ -158,7 +159,7 @@ function ResidentBody({ d }) {
           danger
           icon="trash"
           busy={busy}
-          error={removeError}
+          error={removeError ? t.resident.actionError : undefined}
           onCancel={() => setRemoving(null)}
           onConfirm={confirmDelete}
         >
@@ -172,7 +173,7 @@ function ResidentBody({ d }) {
           onClose={() => setImporting(false)}
           onImport={async (rows) => {
             const n = await importResidents(rows);
-            setNotice(t.resident.imported(n));
+            setNotice({ key: 'imported', arg: n });
             setImporting(false);
           }}
         />
@@ -182,6 +183,7 @@ function ResidentBody({ d }) {
 }
 
 export default function Resident() {
+  const t = useT();
   const state = useData(() => getResidents(), ['residents']);
   return (
     <div className="page">

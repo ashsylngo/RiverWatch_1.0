@@ -2,10 +2,11 @@ import Table from '../../components/ui/Table.jsx';
 import Switch from '../../components/ui/Switch.jsx';
 import { IconButton } from '../../components/ui/Button.jsx';
 import { maskPhone } from '../../lib/phone.js';
-import t from '../../strings/en.js';
+import { useLocale } from '../../lib/i18n.jsx';
 
 // Names, addresses and phone numbers are plain text. React escapes them; nothing is rendered as HTML.
 export default function ResidentTable({ residents, onEdit, onDelete, onToggle }) {
+  const { t, num } = useLocale();
   return (
     <Table caption={t.resident.tableCaption} className="table-residents">
       <thead>
@@ -24,7 +25,7 @@ export default function ResidentTable({ residents, onEdit, onDelete, onToggle })
             <td>{r.name}</td>
             <td>{r.address}</td>
             <td className="nowrap">{maskPhone(r.phone)}</td>
-            <td>{r.purok}</td>
+            <td>{num(r.purok)}</td>
             <td>
               <Switch
                 checked={r.active}

@@ -3,9 +3,10 @@ import Card from '../../components/ui/Card.jsx';
 import Icon from '../../components/ui/Icon.jsx';
 import { FreshnessBadge, GateStateBadge } from '../../components/ui/Badge.jsx';
 import { formatAge, formatDateTime, timeAgo } from '../../lib/time.js';
-import t from '../../strings/en.js';
+import { useLocale } from '../../lib/i18n.jsx';
 
 export default function GateStatus({ gate, lastEvent, fresh, now }) {
+  const { t, lang } = useLocale();
   const dim = fresh.state !== 'live';
   return (
     <Card title={t.gate.title} className="gate-status" actions={<span className="chip chip-note">{t.gate.displayOnly}</span>}>
@@ -14,7 +15,7 @@ export default function GateStatus({ gate, lastEvent, fresh, now }) {
       </div>
       <div className="level-meta">
         <FreshnessBadge state={fresh.state} />
-        <span>{t.gate.updated(formatAge(fresh.ageMs))}</span>
+        <span>{t.gate.updated(formatAge(fresh.ageMs, t))}</span>
       </div>
       {dim ? (
         <p className={`notice ${fresh.state === 'stale' ? 'notice-stale' : 'notice-off'}`}>
@@ -24,11 +25,11 @@ export default function GateStatus({ gate, lastEvent, fresh, now }) {
       ) : null}
       <dl className="kv">
         <dt>{t.gate.lastChanged}</dt>
-        <dd>{`${formatDateTime(gate.changed_at)} (${timeAgo(gate.changed_at, now)})`}</dd>
+        <dd>{`${formatDateTime(gate.changed_at, lang)} (${timeAgo(gate.changed_at, now, t)})`}</dd>
         {lastEvent ? (
           <>
             <dt>{t.gate.lastNote}</dt>
-            <dd>{lastEvent.note}</dd>
+            <dd>{lastEvent.note_key ? t.gate.notes[lastEvent.note_key] : lastEvent.note}</dd>
           </>
         ) : null}
       </dl>

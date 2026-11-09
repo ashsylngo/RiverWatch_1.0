@@ -10,7 +10,7 @@ import { ConfirmDialog } from '../../components/ui/Modal.jsx';
 import { FreshnessBadge, GateStateBadge, StatusBadge } from '../../components/ui/Badge.jsx';
 import { useApp } from '../../app/AppContext.jsx';
 import * as sc from './scenarios.js';
-import t from '../../strings/en.js';
+import { useLocale } from '../../lib/i18n.jsx';
 
 const useSnapshot = () => useSyncExternalStore((cb) => subscribe(() => cb()), getDemoSnapshot);
 
@@ -25,6 +25,7 @@ function Group({ title, hint, children }) {
 }
 
 export default function DemoDrawer({ onClose }) {
+  const { t, num } = useLocale();
   const snap = useSnapshot();
   const navigate = useNavigate();
   const { replaySplash } = useApp();
@@ -40,7 +41,7 @@ export default function DemoDrawer({ onClose }) {
   return (
     <Drawer title={d.title} onClose={onClose} modal={false}>
       <div className="demo-state" role="status" aria-live="polite">
-        <div><span className="muted small">{d.simLevel}</span> <strong>{Math.round(snap.level)} {t.home.level.unit}</strong></div>
+        <div><span className="muted small">{d.simLevel}</span> <strong>{num(Math.round(snap.level))} {t.home.level.unit}</strong></div>
         <StatusBadge tier={tier} />
         <FreshnessBadge state={snap.sensorMode === 'live' ? 'live' : snap.sensorMode} />
         <GateStateBadge state={snap.gateState} />

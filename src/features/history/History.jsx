@@ -2,14 +2,14 @@ import { useState } from 'react';
 import Tabs from '../../components/ui/Tabs.jsx';
 import LevelHistory from './LevelHistory.jsx';
 import AlertsLog from './AlertsLog.jsx';
-import t from '../../strings/en.js';
-
-const TABS = [
-  { id: 'level', label: t.history.tabLevel },
-  { id: 'alerts', label: t.history.tabAlerts },
-];
+import { useT } from '../../lib/i18n.jsx';
 
 export default function History() {
+  const t = useT();
+  const TABS = [
+    { id: 'level', label: t.history.tabLevel },
+    { id: 'alerts', label: t.history.tabAlerts },
+  ];
   const [tab, setTab] = useState('level');
   return (
     <div className="page page-history">

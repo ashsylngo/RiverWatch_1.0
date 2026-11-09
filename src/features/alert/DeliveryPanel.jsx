@@ -5,9 +5,10 @@ import Card from '../../components/ui/Card.jsx';
 import DeliveryTable, { deliverySummary } from '../../components/ui/DeliveryTable.jsx';
 import { SimulatedTag } from '../../components/ui/Badge.jsx';
 import { Async, EmptyState } from '../../components/ui/States.jsx';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
 function PanelBody({ detail }) {
+  const t = useT();
   if (!detail) return <EmptyState icon="info" title={t.delivery.missingTitle} text={t.delivery.missingText} />;
   const s = deliverySummary(detail.deliveries);
   const finished = s.total > 0 && s.done === s.total;
@@ -31,6 +32,7 @@ function PanelBody({ detail }) {
 }
 
 export default function DeliveryPanel({ alertId }) {
+  const t = useT();
   const state = useData(() => getAlertDetail(alertId), ['alerts'], [alertId]);
   return (
     <Card title={t.delivery.title} actions={<SimulatedTag />}>

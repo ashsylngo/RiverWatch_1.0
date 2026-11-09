@@ -3,9 +3,10 @@ import Card from '../../components/ui/Card.jsx';
 import { SimulatedTag } from '../../components/ui/Badge.jsx';
 import { alertLevelLabel } from '../../lib/status.js';
 import { timeAgo } from '../../lib/time.js';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
 export default function SmsPreview({ d, message, segments, recipientCount, canSend, now, onSend, onSendTest }) {
+  const t = useT();
   const last = d.lastSent;
   return (
     <Card title={t.alert.previewTitle} actions={<SimulatedTag />}>
@@ -26,7 +27,7 @@ export default function SmsPreview({ d, message, segments, recipientCount, canSe
       {!canSend && recipientCount === 0 ? <p className="field-hint">{t.alert.noRecipients}</p> : null}
       <p className="muted small last-alert">
         {last
-          ? t.alert.lastSent(alertLevelLabel(last.level), timeAgo(last.sent_at, now), last.delivered_count, last.recipient_count)
+          ? t.alert.lastSent(alertLevelLabel(last.level, t), timeAgo(last.sent_at, now, t), last.delivered_count, last.recipient_count)
           : t.alert.noneSent}
       </p>
     </Card>

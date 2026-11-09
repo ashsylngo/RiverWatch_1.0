@@ -4,12 +4,13 @@ import { useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Button, { IconButton } from './Button.jsx';
 import Icon from './Icon.jsx';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
 const FOCUSABLE =
   'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
 
 export function Overlay({ title, onClose, children, footer, variant = 'modal', modal = true, size = 'md' }) {
+  const t = useT();
   const titleId = useId();
   const boxRef = useRef(null);
   const closeRef = useRef(onClose);
@@ -69,9 +70,10 @@ export function Modal(props) {
 
 /** Confirmation dialog for destructive or consequential actions. */
 export function ConfirmDialog({
-  title, children, confirmLabel, cancelLabel = t.common.cancel, danger = false, busy = false, error, icon,
+  title, children, confirmLabel, cancelLabel, danger = false, busy = false, error, icon,
   onConfirm, onCancel,
 }) {
+  const t = useT();
   return (
     <Modal
       title={title}
@@ -79,7 +81,7 @@ export function ConfirmDialog({
       size="md"
       footer={(
         <>
-          <Button variant="ghost" onClick={onCancel} disabled={busy} data-autofocus>{cancelLabel}</Button>
+          <Button variant="ghost" onClick={onCancel} disabled={busy} data-autofocus>{cancelLabel ?? t.common.cancel}</Button>
           <Button variant={danger ? 'danger' : 'primary'} icon={icon} onClick={onConfirm} disabled={busy}>
             {busy ? t.common.working : confirmLabel}
           </Button>

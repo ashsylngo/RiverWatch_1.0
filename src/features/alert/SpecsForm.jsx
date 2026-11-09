@@ -2,12 +2,13 @@ import Card from '../../components/ui/Card.jsx';
 import Field, { Fieldset } from '../../components/ui/Field.jsx';
 import Icon from '../../components/ui/Icon.jsx';
 import { ALERT_LEVELS } from '../../lib/status.js';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
 const LEVEL_ICON = { watch: 'eye', warning: 'triangle', critical: 'octagon', all_clear: 'checkCircle', test: 'info' };
 const PUROKS = [1, 2, 3, 4, 5, 6];
 
 export default function SpecsForm({ d, form, message, recipientCount, onLevel, onLanguage, onPatch, onMessage, onResetMessage }) {
+  const t = useT();
   const isTest = form.level === 'test';
 
   function toggleHotline(id) {

@@ -8,9 +8,10 @@ import { Async } from '../../components/ui/States.jsx';
 import SensorCard from './SensorCard.jsx';
 import GateStatus from './GateStatus.jsx';
 import GateTimeline from './GateTimeline.jsx';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
 function Body({ home, gate }) {
+  const t = useT();
   const now = useNow();
   const interval = home.station.expected_interval_s;
   const sensorFresh = freshnessFor(home.station.last_seen, now, interval, home.settings);
@@ -29,6 +30,7 @@ function Body({ home, gate }) {
 }
 
 export default function Control() {
+  const t = useT();
   const home = useData(() => getHome(), ['readings', 'gate', 'station']);
   const gate = useData(() => getGate(), ['gate']);
   const state = {

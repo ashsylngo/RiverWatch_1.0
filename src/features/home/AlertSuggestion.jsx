@@ -4,16 +4,17 @@ import Button from '../../components/ui/Button.jsx';
 import { StatusBadge } from '../../components/ui/Badge.jsx';
 import { suggestAlert, alertLevelLabel } from '../../lib/status.js';
 import { timeAgo } from '../../lib/time.js';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
 export default function AlertSuggestion({ tier, level, lastAlert, freshState, now }) {
+  const t = useT();
   const navigate = useNavigate();
   const suggestion = suggestAlert(tier, lastAlert ? lastAlert.level : null);
   if (!suggestion) return null;
 
   const cm = Math.round(level);
   const lastText = lastAlert
-    ? t.home.suggestion.lastAlert(alertLevelLabel(lastAlert.level), timeAgo(lastAlert.sent_at, now))
+    ? t.home.suggestion.lastAlert(alertLevelLabel(lastAlert.level, t), timeAgo(lastAlert.sent_at, now, t))
     : t.home.suggestion.noAlertYet;
 
   return (

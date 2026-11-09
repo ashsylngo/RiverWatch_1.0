@@ -1,12 +1,13 @@
 // Badges. Status is always icon plus text, never color alone.
 import Icon from './Icon.jsx';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
 const TIER_ICON = { normal: 'checkCircle', watch: 'eye', warning: 'triangle', critical: 'octagon' };
 const FRESH_ICON = { live: 'radio', stale: 'clock', offline: 'offline' };
 
 /** System status tier: Normal, Watch, Warning, Critical. */
 export function StatusBadge({ tier, large = false }) {
+  const t = useT();
   return (
     <span className={`badge status-${tier} ${large ? 'badge-lg' : ''}`}>
       <Icon name={TIER_ICON[tier]} size={large ? 22 : 16} />
@@ -17,6 +18,7 @@ export function StatusBadge({ tier, large = false }) {
 
 /** Freshness: Live, Stale, Offline. */
 export function FreshnessBadge({ state }) {
+  const t = useT();
   return (
     <span className={`badge fresh-${state}`}>
       <Icon name={FRESH_ICON[state]} size={16} />
@@ -27,6 +29,7 @@ export function FreshnessBadge({ state }) {
 
 /** Alert level chip (Watch, Warning, Critical, All clear, Test). */
 export function AlertLevelBadge({ level }) {
+  const t = useT();
   const map = {
     watch: ['status-watch', 'eye'],
     warning: ['status-warning', 'triangle'],
@@ -45,6 +48,7 @@ export function AlertLevelBadge({ level }) {
 
 /** Hydraulic gate state: Open or Closed (display only). */
 export function GateStateBadge({ state, large = false }) {
+  const t = useT();
   return (
     <span className={`badge badge-gate ${large ? 'badge-lg' : ''}`}>
       <Icon name={state === 'open' ? 'gateOpen' : 'gateClosed'} size={large ? 22 : 16} />
@@ -55,6 +59,7 @@ export function GateStateBadge({ state, large = false }) {
 
 /** Simulated delivery status for one recipient. */
 export function DeliveryStatus({ status, attempts }) {
+  const t = useT();
   const map = {
     queued: ['badge-neutral', 'clock'],
     sent: ['badge-neutral', 'send'],
@@ -74,5 +79,6 @@ export function DeliveryStatus({ status, attempts }) {
 }
 
 export function SimulatedTag() {
+  const t = useT();
   return <span className="badge badge-neutral badge-sim">{t.common.simulated}</span>;
 }

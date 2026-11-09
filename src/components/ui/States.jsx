@@ -1,13 +1,14 @@
 // Loading, empty and error states, plus Async which switches between them.
 import Button from './Button.jsx';
 import Icon from './Icon.jsx';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
-export function Spinner({ label = t.common.loading }) {
+export function Spinner({ label }) {
+  const t = useT();
   return (
     <div className="spinner-wrap" role="status">
       <span className="spinner" aria-hidden="true" />
-      <span>{label}</span>
+      <span>{label ?? t.common.loading}</span>
     </div>
   );
 }
@@ -23,12 +24,13 @@ export function EmptyState({ icon = 'info', title, text, action }) {
   );
 }
 
-export function ErrorState({ title = t.common.errorTitle, text = t.common.errorText, onRetry }) {
+export function ErrorState({ title, text, onRetry }) {
+  const t = useT();
   return (
     <div className="state state-error" role="alert">
       <Icon name="octagon" size={36} strokeWidth={1.5} />
-      <h3 className="state-title">{title}</h3>
-      <p className="state-text">{text}</p>
+      <h3 className="state-title">{title ?? t.common.errorTitle}</h3>
+      <p className="state-text">{text ?? t.common.errorText}</p>
       {onRetry ? <Button variant="ghost" icon="refresh" onClick={onRetry}>{t.common.retry}</Button> : null}
     </div>
   );

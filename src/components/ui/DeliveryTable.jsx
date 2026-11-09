@@ -2,7 +2,7 @@
 import Table from './Table.jsx';
 import { DeliveryStatus } from './Badge.jsx';
 import { maskPhone } from '../../lib/phone.js';
-import t from '../../strings/en.js';
+import { useLocale } from '../../lib/i18n.jsx';
 
 /** Counts for a set of delivery rows. A row is "done" when delivered, or failed after a retry. */
 export function deliverySummary(rows) {
@@ -16,6 +16,7 @@ export function deliverySummary(rows) {
 }
 
 export default function DeliveryTable({ rows }) {
+  const { t, num } = useLocale();
   return (
     <div className="delivery-scroll">
       <Table caption={t.delivery.tableCaption}>
@@ -33,7 +34,7 @@ export default function DeliveryTable({ rows }) {
               <td>{r.name ?? t.delivery.removed}</td>
               <td className="nowrap">{r.phone ? maskPhone(r.phone) : '-'}</td>
               <td><DeliveryStatus status={r.status} attempts={r.attempts} /></td>
-              <td>{r.attempts}</td>
+              <td>{num(r.attempts)}</td>
             </tr>
           ))}
         </tbody>

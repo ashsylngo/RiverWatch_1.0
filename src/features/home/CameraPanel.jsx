@@ -1,6 +1,6 @@
 import Card from '../../components/ui/Card.jsx';
 import Icon from '../../components/ui/Icon.jsx';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
 /**
  * Placeholder icon only. No image, video, scene or animation.
@@ -8,6 +8,7 @@ import t from '../../strings/en.js';
  * It carries no frame, so it has no timestamp or freshness badge.
  */
 export default function CameraPanel({ cameraOk }) {
+  const t = useT();
   return (
     <Card
       title={t.home.camera.title}

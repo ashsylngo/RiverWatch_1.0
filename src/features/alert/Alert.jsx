@@ -12,7 +12,7 @@ import SpecsForm from './SpecsForm.jsx';
 import SmsPreview from './SmsPreview.jsx';
 import SendDialog from './SendDialog.jsx';
 import DeliveryPanel from './DeliveryPanel.jsx';
-import t from '../../strings/en.js';
+import { useLocale, useT } from '../../lib/i18n.jsx';
 
 const templateFor = (d, level, language) => d.templates.find((x) => x.level === level && x.language === language);
 
@@ -31,6 +31,7 @@ function initialForm(level, d) {
 }
 
 function AlertBody({ d }) {
+  const { t, tFor } = useLocale();
   const [params] = useSearchParams();
   const now = useNow();
   const tier = tierFor(d.latest.level_cm, d.settings);
@@ -42,7 +43,7 @@ function AlertBody({ d }) {
   const [form, setForm] = useState(() => initialForm(startLevel, d));
   const [pending, setPending] = useState(null); // payload waiting for confirmation
   const [sending, setSending] = useState(false);
-  const [sendError, setSendError] = useState('');
+  const [sendError, setSendError] = useState(false); // kept as a flag so the text follows a language switch
   const [activeAlertId, setActiveAlertId] = useState(null);
 
   const patch = (p) => setForm((f) => ({ ...f, ...p }));
@@ -68,7 +69,8 @@ function AlertBody({ d }) {
 
   const composed = useMemo(() => compose(tpl.body, {
     BARANGAY: d.barangay.name,
-    LEVEL_LABEL: tierLabel(tier),
+    // The SMS text does not follow the UI language: the level label stays as it was (English).
+    LEVEL_LABEL: tierLabel(tier, tFor('en')),
     LEVEL_CM: Math.round(d.latest.level_cm),
     DISASTER_INFO: form.disaster.trim(),
     EVAC_LOCATION: evacName || '-',
@@ -95,14 +97,14 @@ function AlertBody({ d }) {
 
   async function confirmSend() {
     setSending(true);
-    setSendError('');
+    setSendError(false);
     try {
       const { recipientCount: _count, toSelf: _toSelf, ...payload } = pending;
       const id = await sendAlert(payload);
       setActiveAlertId(id);
       setPending(null);
     } catch {
-      setSendError(t.alert.sendError);
+      setSendError(true);
     } finally {
       setSending(false);
     }
@@ -129,8 +131,8 @@ function AlertBody({ d }) {
           recipientCount={recipientCount}
           canSend={canSend}
           now={now}
-          onSend={() => { setSendError(''); setPending(snapshot(false)); }}
-          onSendTest={() => { setSendError(''); setPending(snapshot(true)); }}
+          onSend={() => { setSendError(false); setPending(snapshot(false)); }}
+          onSendTest={() => { setSendError(false); setPending(snapshot(true)); }}
         />
         {activeAlertId ? <DeliveryPanel alertId={activeAlertId} /> : null}
       </div>
@@ -138,7 +140,7 @@ function AlertBody({ d }) {
         <SendDialog
           pending={pending}
           busy={sending}
-          error={sendError}
+          error={sendError ? t.alert.sendError : undefined}
           onCancel={() => setPending(null)}
           onConfirm={confirmSend}
         />
@@ -148,6 +150,7 @@ function AlertBody({ d }) {
 }
 
 export default function Alert() {
+  const t = useT();
   const state = useData(() => getAlertForm(), ['readings', 'residents', 'alerts']);
   return (
     <div className="page">

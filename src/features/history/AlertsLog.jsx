@@ -9,9 +9,10 @@ import Table from '../../components/ui/Table.jsx';
 import { AlertLevelBadge } from '../../components/ui/Badge.jsx';
 import { Async, EmptyState } from '../../components/ui/States.jsx';
 import AlertDetail from './AlertDetail.jsx';
-import t from '../../strings/en.js';
+import { useLocale } from '../../lib/i18n.jsx';
 
 export default function AlertsLog() {
+  const { t, lang, num } = useLocale();
   const state = useData(() => getAlertsLog(), ['alerts']);
   const [openId, setOpenId] = useState(null);
 
@@ -47,14 +48,14 @@ export default function AlertsLog() {
                 <tbody>
                   {d.alerts.map((a) => (
                     <tr key={a.id}>
-                      <td>{formatDateTime(a.sent_at)}</td>
+                      <td>{formatDateTime(a.sent_at, lang)}</td>
                       <td><AlertLevelBadge level={a.level} /></td>
                       <td>{a.language === 'en' ? t.alert.langEn : t.alert.langFil}</td>
-                      <td>{a.recipient_count}</td>
-                      <td>{a.delivered_count}</td>
-                      <td>{a.failed_count}</td>
+                      <td>{num(a.recipient_count)}</td>
+                      <td>{num(a.delivered_count)}</td>
+                      <td>{num(a.failed_count)}</td>
                       <td>{a.sent_by}</td>
-                      <td><Button onClick={() => setOpenId(a.id)} aria-label={t.history.openDetail(formatDateTime(a.sent_at))}>{t.history.details}</Button></td>
+                      <td><Button onClick={() => setOpenId(a.id)} aria-label={t.history.openDetail(formatDateTime(a.sent_at, lang))}>{t.history.details}</Button></td>
                     </tr>
                   ))}
                 </tbody>

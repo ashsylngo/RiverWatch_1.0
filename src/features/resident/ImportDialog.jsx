@@ -4,19 +4,21 @@ import { Modal } from '../../components/ui/Modal.jsx';
 import Button from '../../components/ui/Button.jsx';
 import Table from '../../components/ui/Table.jsx';
 import Icon from '../../components/ui/Icon.jsx';
-import { MAX_CSV_BYTES, parseResidentsCsv } from '../../lib/csv.js';
+import { MAX_CSV_BYTES, parseResidentsCsv, csvErrorText } from '../../lib/csv.js';
 import { maskPhone } from '../../lib/phone.js';
-import t from '../../strings/en.js';
+import { useLocale } from '../../lib/i18n.jsx';
 
 const MAX_ERRORS_SHOWN = 12;
 
 export default function ImportDialog({ defaultAddress, onImport, onClose }) {
+  const { t, num } = useLocale();
   const [text, setText] = useState('');
   const [fileName, setFileName] = useState('');
   const [result, setResult] = useState(null);
+  // Messages are kept as codes and turned into text when drawn, so they follow a language switch.
   const [fileError, setFileError] = useState('');
   const [busy, setBusy] = useState(false);
-  const [importError, setImportError] = useState('');
+  const [importError, setImportError] = useState(false);
 
   async function onFile(e) {
     const file = e.target.files && e.target.files[0];
@@ -24,7 +26,7 @@ export default function ImportDialog({ defaultAddress, onImport, onClose }) {
     setResult(null);
     if (!file) return;
     if (file.size > MAX_CSV_BYTES) {
-      setFileError(t.resident.importTooBig);
+      setFileError('importTooBig');
       return;
     }
     try {
@@ -32,7 +34,7 @@ export default function ImportDialog({ defaultAddress, onImport, onClose }) {
       setText(content);
       setFileName(file.name);
     } catch {
-      setFileError(t.resident.importReadError);
+      setFileError('importReadError');
     }
   }
 
@@ -46,11 +48,11 @@ export default function ImportDialog({ defaultAddress, onImport, onClose }) {
 
   async function confirm() {
     setBusy(true);
-    setImportError('');
+    setImportError(false);
     try {
       await onImport(result.valid);
     } catch {
-      setImportError(t.resident.importFailed);
+      setImportError(true);
       setBusy(false);
     }
   }
@@ -75,7 +77,7 @@ export default function ImportDialog({ defaultAddress, onImport, onClose }) {
           <label htmlFor="csv-file">{t.resident.importFile}</label>
           <input id="csv-file" className="input" type="file" accept=".csv,text/csv" onChange={onFile} data-autofocus />
           {fileName ? <p className="field-hint">{fileName}</p> : null}
-          {fileError ? <p className="field-error" role="alert"><Icon name="octagon" size={16} />{fileError}</p> : null}
+          {fileError ? <p className="field-error" role="alert"><Icon name="octagon" size={16} />{t.resident[fileError]}</p> : null}
         </div>
         <div className="field">
           <label htmlFor="csv-text">{t.resident.importPaste}</label>
@@ -104,7 +106,7 @@ export default function ImportDialog({ defaultAddress, onImport, onClose }) {
           {result.errors.length > 0 ? (
             <ul className="error-list">
               {result.errors.slice(0, MAX_ERRORS_SHOWN).map((er) => (
-                <li key={`${er.line}-${er.message}`}>{t.resident.importLine(er.line, er.message)}</li>
+                <li key={`${er.line}-${er.codes.join('-')}`}>{t.resident.importLine(er.line, csvErrorText(er, t))}</li>
               ))}
               {result.errors.length > MAX_ERRORS_SHOWN ? <li>{t.resident.importMore(result.errors.length - MAX_ERRORS_SHOWN)}</li> : null}
             </ul>
@@ -124,7 +126,7 @@ export default function ImportDialog({ defaultAddress, onImport, onClose }) {
                   <tr key={`${r.name}-${r.phone}`}>
                     <td>{r.name}</td>
                     <td>{r.address}</td>
-                    <td>{r.purok}</td>
+                    <td>{num(r.purok)}</td>
                     <td className="nowrap">{maskPhone(r.phone)}</td>
                   </tr>
                 ))}
@@ -133,7 +135,7 @@ export default function ImportDialog({ defaultAddress, onImport, onClose }) {
           ) : null}
         </div>
       ) : null}
-      {importError ? <p className="field-error" role="alert"><Icon name="octagon" size={16} />{importError}</p> : null}
+      {importError ? <p className="field-error" role="alert"><Icon name="octagon" size={16} />{t.resident.importFailed}</p> : null}
     </Modal>
   );
 }

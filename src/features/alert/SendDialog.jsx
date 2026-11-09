@@ -1,9 +1,10 @@
 // Confirmation before any send. Shows exactly what will be sent (a snapshot taken when the dialog opened).
 import { ConfirmDialog } from '../../components/ui/Modal.jsx';
 import { AlertLevelBadge, SimulatedTag } from '../../components/ui/Badge.jsx';
-import t from '../../strings/en.js';
+import { useT } from '../../lib/i18n.jsx';
 
 export default function SendDialog({ pending, busy, error, onCancel, onConfirm }) {
+  const t = useT();
   return (
     <ConfirmDialog
       title={pending.toSelf ? t.alert.confirmTestTitle : t.alert.confirmTitle}

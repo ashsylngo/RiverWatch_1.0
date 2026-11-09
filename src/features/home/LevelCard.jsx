@@ -2,16 +2,17 @@ import Card from '../../components/ui/Card.jsx';
 import Icon from '../../components/ui/Icon.jsx';
 import { FreshnessBadge, StatusBadge } from '../../components/ui/Badge.jsx';
 import { formatAge, formatShortTime } from '../../lib/time.js';
-import t from '../../strings/en.js';
+import { useLocale } from '../../lib/i18n.jsx';
 
 export default function LevelCard({ d, tier, fresh }) {
+  const { t, lang, num } = useLocale();
   const s = d.settings;
   const dim = fresh.state !== 'live';
   return (
     <Card title={t.home.level.title}>
       <div className={`level ${dim ? 'is-dim' : ''}`}>
         <div className="level-value">
-          <span className="level-num">{Math.round(d.latest.level_cm)}</span>
+          <span className="level-num">{num(Math.round(d.latest.level_cm))}</span>
           <span className="level-unit">{t.home.level.unit}</span>
         </div>
         <div className="level-status">
@@ -21,7 +22,7 @@ export default function LevelCard({ d, tier, fresh }) {
       </div>
       <div className="level-meta">
         <FreshnessBadge state={fresh.state} />
-        <span>{t.home.level.updated(formatAge(fresh.ageMs), formatShortTime(d.station.last_seen))}</span>
+        <span>{t.home.level.updated(formatAge(fresh.ageMs, t), formatShortTime(d.station.last_seen, lang))}</span>
       </div>
       {fresh.state === 'stale' ? (
         <p className="notice notice-stale"><Icon name="clock" size={16} />{t.home.level.staleNote}</p>
