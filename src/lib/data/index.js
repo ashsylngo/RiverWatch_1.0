@@ -4,7 +4,7 @@
 import { init, subscribe as subscribeToStore } from './demo/store.js';
 import { startSimulator, startRiverRising, startBackToNormal, setSensorMode, setCameraOk, toggleSimulatedGate, setTools } from './demo/simulator.js';
 import * as source from './demo/source.js';
-import { hasSeenSplash, markSplashSeen } from './storage.js';
+import { hasSeenSplash, markSplashSeen, loadLang, saveLang } from './storage.js';
 
 init();
 startSimulator();
@@ -30,3 +30,6 @@ export const demo = {
 
 // Splash flag (once per browser session)
 export { hasSeenSplash, markSplashSeen };
+
+// UI language choice (riverwatch.lang.v1, separate from the demo data)
+export { loadLang, saveLang };

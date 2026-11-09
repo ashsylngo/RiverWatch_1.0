@@ -28,7 +28,8 @@ function recordReading() {
   S.station.signal_pct = 69 + Math.floor(sim.rng() * 5);
 }
 
-function addGateEvent(state, note, byUser) {
+// `note` is the stored English text. `noteKey` lets the screen show it in the UI language (t.gate.notes[noteKey]).
+function addGateEvent(state, note, noteKey, byUser) {
   const S = getState();
   const nowIso = new Date().toISOString();
   S.sim.counter += 1;
@@ -40,6 +41,7 @@ function addGateEvent(state, note, byUser) {
     occurred_at: nowIso,
     level_cm: round1(S.sim.level),
     note,
+    note_key: noteKey,
   });
   S.gate.state = state;
   S.gate.changed_at = nowIso;
@@ -52,10 +54,10 @@ function autoGate() {
   const sim = S.sim;
   if (sim.mode === 'ramp' && S.gate.state === 'open' && sim.level >= S.settings.warning_cm) {
     sim.autoClosed = true;
-    addGateEvent('closed', 'Simulated: closed when the level reached Warning (River rising scenario)', false);
+    addGateEvent('closed', 'Simulated: closed when the level reached Warning (River rising scenario)', 'riverRising', false);
   } else if (sim.mode === 'fall' && sim.autoClosed && S.gate.state === 'closed' && sim.level < S.settings.watch_cm) {
     sim.autoClosed = false;
-    addGateEvent('open', 'Simulated: reopened when the level fell below Watch (Back to normal scenario)', false);
+    addGateEvent('open', 'Simulated: reopened when the level fell below Watch (Back to normal scenario)', 'backToNormal', false);
   }
 }
 
@@ -147,7 +149,7 @@ export function toggleSimulatedGate() {
   const S = getState();
   const next = S.gate.state === 'open' ? 'closed' : 'open';
   S.sim.autoClosed = false;
-  addGateEvent(next, 'Simulated: toggled from Demo tools', true);
+  addGateEvent(next, 'Simulated: toggled from Demo tools', 'demoToggle', true);
 }
 
 export function setTools(patch) {

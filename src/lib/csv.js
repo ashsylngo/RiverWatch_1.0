@@ -1,5 +1,4 @@
 // CSV helpers. Everything runs locally in the browser. No network.
-import t from '../strings/en.js';
 import { fileStamp } from './time.js';
 import { normalizePhone } from './phone.js';
 
@@ -60,11 +59,12 @@ export const isValidPurok = (n) => Number.isInteger(n) && n >= 1 && n <= 6;
 
 /**
  * Parse resident CSV text. Headers: name,address,purok,phone.
- * Returns { valid: [...], errors: [{ line, message }], total }.
+ * Returns { valid: [...], errors: [{ line, codes, arg? }], total }. Errors carry codes (keys of t.csv), not text,
+ * so the message follows the UI language even after the preview was made. Use csvErrorText(error, t) to show one.
  */
 export function parseResidentsCsv(text, defaultAddress) {
   const rows = parseCsv(text);
-  if (rows.length === 0) return { valid: [], errors: [{ line: 1, message: t.csv.empty }], total: 0 };
+  if (rows.length === 0) return { valid: [], errors: [{ line: 1, codes: ['empty'] }], total: 0 };
   const header = rows[0].map((h) => h.trim().toLowerCase());
   const idx = {
     name: header.indexOf('name'),
@@ -73,7 +73,7 @@ export function parseResidentsCsv(text, defaultAddress) {
     phone: header.indexOf('phone'),
   };
   if (idx.name < 0 || idx.purok < 0 || idx.phone < 0) {
-    return { valid: [], errors: [{ line: 1, message: t.csv.badHeader }], total: 0 };
+    return { valid: [], errors: [{ line: 1, codes: ['badHeader'] }], total: 0 };
   }
   const body = rows.slice(1, MAX_ROWS + 1);
   const valid = [];
@@ -85,13 +85,16 @@ export function parseResidentsCsv(text, defaultAddress) {
     const phone = normalizePhone(r[idx.phone]);
     const address = idx.address >= 0 ? (r[idx.address] ?? '').trim() : '';
     const problems = [];
-    if (!name) problems.push(t.csv.missingName);
-    else if (name.length > 80) problems.push(t.csv.nameTooLong);
-    if (!isValidPurok(purok)) problems.push(t.csv.badPurok);
-    if (!phone) problems.push(t.csv.badPhone);
-    if (problems.length) errors.push({ line, message: problems.join(' ') });
+    if (!name) problems.push('missingName');
+    else if (name.length > 80) problems.push('nameTooLong');
+    if (!isValidPurok(purok)) problems.push('badPurok');
+    if (!phone) problems.push('badPhone');
+    if (problems.length) errors.push({ line, codes: problems });
     else valid.push({ name, address: address || defaultAddress(purok), purok, phone });
   });
-  if (rows.length - 1 > MAX_ROWS) errors.push({ line: MAX_ROWS + 2, message: t.csv.tooManyRows(MAX_ROWS) });
+  if (rows.length - 1 > MAX_ROWS) errors.push({ line: MAX_ROWS + 2, codes: ['tooManyRows'], arg: MAX_ROWS });
   return { valid, errors, total: body.length };
 }
+
+/** Text of one parse error, in the language of the strings `t`. */
+export const csvErrorText = (error, t) => error.codes.map((c) => (typeof t.csv[c] === 'function' ? t.csv[c](error.arg) : t.csv[c])).join(' ');

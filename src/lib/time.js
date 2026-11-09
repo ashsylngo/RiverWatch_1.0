@@ -1,37 +1,23 @@
-// Time helpers. Times are stored as UTC ISO strings and shown in Asia/Manila.
-import t from '../strings/en.js';
+// Time helpers. Times are stored as UTC ISO strings and shown in Asia/Manila, 12-hour time.
+// Nothing is cached at module level: formatters take the UI language ('en' or 'fil') and text helpers take `t`.
+import { intlLocale } from './format.js';
 
 const TZ = 'Asia/Manila';
 
-const clockFmt = new Intl.DateTimeFormat('en-PH', {
-  timeZone: TZ, hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true,
-});
-const dateLongFmt = new Intl.DateTimeFormat('en-PH', {
-  timeZone: TZ, weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-});
-const dateTimeFmt = new Intl.DateTimeFormat('en-PH', {
-  timeZone: TZ, year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true,
-});
-const dateTimeSecFmt = new Intl.DateTimeFormat('en-PH', {
-  timeZone: TZ, year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true,
-});
-const shortTimeFmt = new Intl.DateTimeFormat('en-PH', { timeZone: TZ, hour: 'numeric', minute: '2-digit', hour12: true });
-const shortDateFmt = new Intl.DateTimeFormat('en-PH', { timeZone: TZ, month: 'short', day: 'numeric' });
-const stampFmt = new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' });
-
+const fmt = (lang, options) => new Intl.DateTimeFormat(intlLocale(lang), { timeZone: TZ, ...options });
 const toMs = (v) => (typeof v === 'number' ? v : Date.parse(v));
 
-export const formatClock = (ms) => clockFmt.format(ms);
-export const formatDateLong = (ms) => dateLongFmt.format(ms);
-export const formatDateTime = (v) => dateTimeFmt.format(toMs(v));
-export const formatDateTimeSec = (v) => dateTimeSecFmt.format(toMs(v));
-export const formatShortTime = (v) => shortTimeFmt.format(toMs(v));
-export const formatShortDate = (v) => shortDateFmt.format(toMs(v));
-/** yyyy-mm-dd in Asia/Manila, for file names. */
-export const fileStamp = (ms) => stampFmt.format(ms);
+export const formatClock = (ms, lang) => fmt(lang, { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true }).format(ms);
+export const formatDateLong = (ms, lang) => fmt(lang, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).format(ms);
+export const formatDateTime = (v, lang) => fmt(lang, { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).format(toMs(v));
+export const formatDateTimeSec = (v, lang) => fmt(lang, { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true }).format(toMs(v));
+export const formatShortTime = (v, lang) => fmt(lang, { hour: 'numeric', minute: '2-digit', hour12: true }).format(toMs(v));
+export const formatShortDate = (v, lang) => fmt(lang, { month: 'short', day: 'numeric' }).format(toMs(v));
+/** yyyy-mm-dd in Asia/Manila, for file names. Fixed format: file names do not follow the UI language. */
+export const fileStamp = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(ms);
 
-/** "12 s ago", "3 min ago", "2 h ago", "9 days ago". */
-export function formatAge(ageMs) {
+/** "12 s ago", "3 min ago", "2 h ago", "9 days ago" (or the Filipino text), from the strings `t`. */
+export function formatAge(ageMs, t) {
   const s = Math.max(0, Math.round(ageMs / 1000));
   if (s < 5) return t.time.justNow;
   if (s < 60) return t.time.secondsAgo(s);
@@ -42,10 +28,10 @@ export function formatAge(ageMs) {
   return t.time.daysAgo(Math.floor(h / 24));
 }
 
-export const timeAgo = (iso, nowMs) => formatAge(nowMs - Date.parse(iso));
+export const timeAgo = (iso, nowMs, t) => formatAge(nowMs - Date.parse(iso), t);
 
 /** "3 d 4 h", "5 h 10 min", "12 min" for durations in ms. */
-export function formatDuration(ms) {
+export function formatDuration(ms, t) {
   const totalMin = Math.round(ms / 60000);
   if (totalMin < 1) return t.time.lessThanMinute;
   const d = Math.floor(totalMin / 1440);

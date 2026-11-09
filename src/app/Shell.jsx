@@ -4,9 +4,10 @@ import Sidebar from './Sidebar.jsx';
 import TopBar from './TopBar.jsx';
 import DemoDrawer from '../features/demo/DemoDrawer.jsx';
 import { DEMO_TOOLS_ENABLED } from './brand.js';
-import t from '../strings/en.js';
+import { useT } from '../lib/i18n.jsx';
 
 export default function Shell({ children }) {
+  const t = useT();
   const [demoOpen, setDemoOpen] = useState(false);
   const mainRef = useRef(null);
   const { pathname } = useLocation();

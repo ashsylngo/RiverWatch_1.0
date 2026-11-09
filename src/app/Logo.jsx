@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import t from '../strings/en.js';
+import { useT } from '../lib/i18n.jsx';
 
 /**
  * Shows a supplied logo exactly as it is (natural proportions, no recoloring).
@@ -7,6 +7,7 @@ import t from '../strings/en.js';
  * The fallback is never a drawn substitute. Supply the logo file to remove it.
  */
 export default function Logo({ src, className = '' }) {
+  const t = useT();
   const [failed, setFailed] = useState(false);
   if (!src || failed) {
     return <span className={`wordmark-temp ${className}`}>{t.app.name}</span>;
@@ -24,6 +25,7 @@ export default function Logo({ src, className = '' }) {
 
 /** Optional barangay seal. Renders nothing if there is no file or it fails to load (no broken-image icon). */
 export function Seal({ src }) {
+  const t = useT();
   const [failed, setFailed] = useState(false);
   if (!src || failed) return null;
   return <img className="seal-img" src={src} alt={t.brand.sealAlt} onError={() => setFailed(true)} />;

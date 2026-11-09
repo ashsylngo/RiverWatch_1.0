@@ -1,6 +1,5 @@
 // Status tier, freshness and alert-suggestion logic. Pure functions.
 // Thresholds and timing are never hard-coded here: they are passed in from the data layer settings.
-import t from '../strings/en.js';
 
 export const TIERS = ['normal', 'watch', 'warning', 'critical'];
 const TIER_RANK = { normal: 0, watch: 1, warning: 2, critical: 3 };
@@ -9,7 +8,7 @@ const TIER_RANK = { normal: 0, watch: 1, warning: 2, critical: 3 };
 const ALERT_RANK = { all_clear: 0, watch: 1, warning: 2, critical: 3 };
 
 export const tierRank = (tier) => TIER_RANK[tier] ?? 0;
-export const tierLabel = (tier) => t.status[tier].label;
+export const tierLabel = (tier, t) => t.status[tier].label;
 
 /** < watch is Normal, >= watch Watch, >= warning Warning, >= critical Critical. */
 export function tierFor(levelCm, settings) {
@@ -47,4 +46,4 @@ export function suggestAlert(status, lastAlertLevel) {
 }
 
 export const ALERT_LEVELS = ['watch', 'warning', 'critical', 'all_clear', 'test'];
-export const alertLevelLabel = (level) => t.alertLevels[level].label;
+export const alertLevelLabel = (level, t) => t.alertLevels[level].label;

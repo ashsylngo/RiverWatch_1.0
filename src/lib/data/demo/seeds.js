@@ -50,6 +50,9 @@ export const evacuationCenters = [
 // Masked placeholder number for "Send test to myself".
 export const demoOfficial = { id: 'demo-official', name: 'Demo Official', phone: '09XX XXX 9999', purok: 0, active: true };
 
+// Status labels written into the seeded past alert messages. Seed data, so fixed English text that never follows the UI language.
+export const seedLevelLabels = { normal: 'Normal', watch: 'Watch', warning: 'Warning', critical: 'Critical' };
+
 // SMS templates. The Filipino wording is a draft to be reviewed.
 export const alertTemplates = [
   {

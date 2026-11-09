@@ -1,9 +1,9 @@
 // Deterministic seed generator. Same shape on every load; timestamps are relative to the load time.
 import { mulberry32 } from './prng.js';
 import { compose, hotlinesText } from '../../sms.js';
-import { tierFor, tierLabel } from '../../status.js';
+import { tierFor } from '../../status.js';
 import {
-  barangay, settings, stationBase, gateBase, hotlines, evacuationCenters, alertTemplates,
+  barangay, settings, stationBase, gateBase, hotlines, evacuationCenters, alertTemplates, seedLevelLabels,
 } from './seeds.js';
 
 const HOUR = 3600 * 1000;
@@ -138,7 +138,7 @@ function generateAlerts(nowMs, residents) {
     const cm = p.cm ?? LOAD_TIME_LEVEL;
     const message = compose(tpl.body, {
       BARANGAY: barangay.name,
-      LEVEL_LABEL: tierLabel(tierFor(cm, settings)),
+      LEVEL_LABEL: seedLevelLabels[tierFor(cm, settings)],
       LEVEL_CM: cm,
       DISASTER_INFO: tpl.default_disaster_info,
       EVAC_LOCATION: evacuationCenters[p.evac].name,

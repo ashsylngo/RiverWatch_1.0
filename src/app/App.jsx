@@ -9,15 +9,16 @@ import Alert from '../features/alert/Alert.jsx';
 import History from '../features/history/History.jsx';
 import Control from '../features/control/Control.jsx';
 import { hasSeenSplash, markSplashSeen } from '../lib/data/index.js';
-import t from '../strings/en.js';
+import { useT } from '../lib/i18n.jsx';
 
 export default function App() {
+  const t = useT();
   const [showSplash, setShowSplash] = useState(() => !hasSeenSplash());
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = t.app.name;
-  }, []);
+  }, [t]);
 
   const finishSplash = useCallback(() => {
     markSplashSeen();

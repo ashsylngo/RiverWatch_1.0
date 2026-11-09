@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef } from 'react';
 import Logo from './Logo.jsx';
 import { brand } from './brand.js';
-import t from '../strings/en.js';
+import { useT } from '../lib/i18n.jsx';
 
 const SHOW_MS = 2500;
 
 /** The splash is the logo, nothing else. Click or press any key to skip. */
 export default function Splash({ onDone }) {
+  const t = useT();
   const finished = useRef(false);
 
   const finish = useCallback(() => {

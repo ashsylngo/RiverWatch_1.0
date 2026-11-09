@@ -2,6 +2,8 @@
 // If storage is blocked, the app keeps working and simply does not save.
 const KEY = 'riverwatch.demo.v1';
 const SPLASH_KEY = `${KEY}.splash`;
+// The UI language is stored apart from the demo data, so Reset demo never changes it.
+const LANG_KEY = 'riverwatch.lang.v1';
 
 let splashSeenInMemory = false;
 
@@ -49,5 +51,24 @@ export function markSplashSeen() {
     window.sessionStorage.setItem(SPLASH_KEY, '1');
   } catch {
     /* storage blocked: the in-memory flag is enough for this page load */
+  }
+}
+
+/** Saved UI language ('en' or 'fil'), or null if none is saved or storage is blocked. */
+export function loadLang() {
+  try {
+    const v = window.localStorage.getItem(LANG_KEY);
+    return v === 'en' || v === 'fil' ? v : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveLang(lang) {
+  try {
+    window.localStorage.setItem(LANG_KEY, lang);
+    return true;
+  } catch {
+    return false;
   }
 }

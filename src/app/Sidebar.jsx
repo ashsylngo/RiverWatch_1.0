@@ -3,17 +3,18 @@ import Icon from '../components/ui/Icon.jsx';
 import Button from '../components/ui/Button.jsx';
 import Logo from './Logo.jsx';
 import { brand, DEMO_TOOLS_ENABLED } from './brand.js';
-import t from '../strings/en.js';
+import { useT } from '../lib/i18n.jsx';
 
 const ITEMS = [
-  { to: '/home', icon: 'home', label: t.nav.home },
-  { to: '/resident', icon: 'users', label: t.nav.resident },
-  { to: '/alert', icon: 'message', label: t.nav.alert },
-  { to: '/history', icon: 'history', label: t.nav.history },
-  { to: '/control', icon: 'gauge', label: t.nav.control },
+  { to: '/home', icon: 'home', key: 'home' },
+  { to: '/resident', icon: 'users', key: 'resident' },
+  { to: '/alert', icon: 'message', key: 'alert' },
+  { to: '/history', icon: 'history', key: 'history' },
+  { to: '/control', icon: 'gauge', key: 'control' },
 ];
 
 export default function Sidebar({ demoOpen, onToggleDemo }) {
+  const t = useT();
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
@@ -25,7 +26,7 @@ export default function Sidebar({ demoOpen, onToggleDemo }) {
             <li key={item.to}>
               <NavLink to={item.to} className={({ isActive }) => `nav-link ${isActive ? 'is-active' : ''}`}>
                 <Icon name={item.icon} size={20} />
-                <span>{item.label}</span>
+                <span>{t.nav[item.key]}</span>
               </NavLink>
             </li>
           ))}
