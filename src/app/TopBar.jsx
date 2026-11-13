@@ -1,5 +1,6 @@
 import { Seal } from './Logo.jsx';
 import LanguageToggle from './LanguageToggle.jsx';
+import NotificationBell from '../features/notifications/NotificationBell.jsx';
 import { brand } from './brand.js';
 import { getBarangay } from '../lib/data/index.js';
 import { useNow } from '../lib/useNow.js';
@@ -22,8 +23,7 @@ export default function TopBar() {
           <span className="date">{formatDateLong(now, lang)}</span>
         </div>
         <LanguageToggle />
-        {/* Room for the notification bell (a 40 px button at the far right), added in step 5 (B3). */}
-        <span className="topbar-bell-slot" aria-hidden="true" />
+        <NotificationBell />
       </div>
     </header>
   );
