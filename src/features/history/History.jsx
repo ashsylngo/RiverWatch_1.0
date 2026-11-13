@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import Tabs from '../../components/ui/Tabs.jsx';
 import LevelHistory from './LevelHistory.jsx';
 import AlertsLog from './AlertsLog.jsx';
@@ -10,7 +11,14 @@ export default function History() {
     { id: 'level', label: t.history.tabLevel },
     { id: 'alerts', label: t.history.tabAlerts },
   ];
-  const [tab, setTab] = useState('level');
+  const [params] = useSearchParams();
+  const { key } = useLocation();
+  // The notification bell links to History > Alerts log with ?tab=alerts.
+  const [tab, setTab] = useState(params.get('tab') === 'alerts' ? 'alerts' : 'level');
+  useEffect(() => {
+    if (params.get('tab') === 'alerts') setTab('alerts');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
   return (
     <div className="page page-history">
       <h1 className="page-title">{t.history.title}</h1>

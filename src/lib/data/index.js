@@ -13,10 +13,10 @@ startSimulator();
 export const subscribe = subscribeToStore;
 
 // Reads
-export const { getBarangay, getHome, getResidents, getAlertForm, getAlertDetail, getHistory, getAlertsLog, getGate, getDemoSnapshot } = source;
+export const { getBarangay, getHome, getResidents, getAlertForm, getAlertDetail, getHistory, getAlertsLog, getGate, getDemoSnapshot, getNotifications } = source;
 
 // Actions
-export const { addResident, updateResident, deleteResident, importResidents, sendAlert, countRecipients, resetDemo } = source;
+export const { addResident, updateResident, deleteResident, importResidents, sendAlert, countRecipients, resetDemo, markNotificationsRead } = source;
 
 // Demo tools (simulated scenarios only)
 export const demo = {

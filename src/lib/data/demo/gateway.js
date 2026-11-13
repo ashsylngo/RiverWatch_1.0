@@ -2,7 +2,7 @@
 // On send, one delivery row per recipient is created as `queued`, moved to `sent` after a short random
 // delay, then to `delivered`. A seeded ~5% fraction goes to `failed`, is retried once, and then becomes
 // `delivered` or stays `failed`. Alert counts update as rows change.
-import { getState, notify, persist } from './store.js';
+import { getState, notify, persist, addNotification, checkTransitions } from './store.js';
 import { mulberry32, shuffle } from './prng.js';
 import { recipientsForFilter } from './generator.js';
 
@@ -119,5 +119,7 @@ export function sendSimulated(payload) {
   persist();
   if (!timer) timer = setInterval(processJobs, 200);
   notify('alerts');
+  addNotification('alert_sent', 'info', { alert_id: id, level: alert.level, recipients: recipients.length });
+  checkTransitions(); // the Home suggestion may change now that an alert was sent
   return id;
 }

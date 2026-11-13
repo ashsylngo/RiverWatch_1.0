@@ -122,6 +122,33 @@ export function getGate() {
   });
 }
 
+/**
+ * The notification list for the bell: { items (newest first, at most 20), readAt, unread (count) }.
+ * Each item is { id, kind, severity, created_at, params, unread }. It holds no finished text: the screen builds
+ * the title and message from the strings files. Synchronous and not affected by the Demo tools delay or error
+ * switch, like the other Demo controls, so the bell keeps working while those are on. The result is cached
+ * until the list or the read time changes, so it can be used with useSyncExternalStore.
+ */
+let notificationCache = null;
+export function getNotifications() {
+  const S = getState();
+  const c = notificationCache;
+  if (c && c.list === S.notifications && c.readAt === S.notificationsReadAt) return c.value;
+  const readMs = Date.parse(S.notificationsReadAt);
+  const items = S.notifications.map((n) => ({ ...n, params: { ...n.params }, unread: Date.parse(n.created_at) > readMs }));
+  const value = { items, readAt: S.notificationsReadAt, unread: items.filter((n) => n.unread).length };
+  notificationCache = { list: S.notifications, readAt: S.notificationsReadAt, value };
+  return value;
+}
+
+/** Mark all as read: the read time becomes now. Items created after it are unread. */
+export function markNotificationsRead() {
+  const S = getState();
+  S.notificationsReadAt = new Date().toISOString();
+  persist();
+  notify('notifications');
+}
+
 // ---- Actions (resident and alert data go through the same delay and error wrapper) ----------
 
 const clean = (v, max) => String(v ?? '').trim().slice(0, max);

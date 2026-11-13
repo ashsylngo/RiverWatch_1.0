@@ -1,6 +1,6 @@
 // Simulated live stream and demo scenarios. Nothing here talks to hardware.
 // The gate is display-only: the only way its simulated state changes is a Demo tools scenario.
-import { getState, notify, persist } from './store.js';
+import { getState, notify, persist, addNotification, checkTransitions } from './store.js';
 import { tierFor } from '../../status.js';
 
 const RISE_SECONDS = 30;
@@ -47,6 +47,7 @@ function addGateEvent(state, note, noteKey, byUser) {
   S.gate.changed_at = nowIso;
   if (byUser) persist();
   notify('gate');
+  addNotification('gate', 'info', { state });
 }
 
 function autoGate() {
@@ -83,7 +84,10 @@ export function tick() {
     sim.level += (sim.target - sim.level) * 0.25 + (sim.rng() - 0.5) * 1.4;
     moved = true;
   }
-  if (!moved) return;
+  if (!moved) {
+    checkTransitions(); // a silent sensor can turn from Stale to Offline with the clock alone
+    return;
+  }
 
   autoGate();
   if (sim.sensorMode === 'live') {
@@ -93,6 +97,7 @@ export function tick() {
     // The sensor is silent: nothing is recorded and last_seen is not updated.
     notify('sim');
   }
+  checkTransitions();
 }
 
 export function startSimulator() {
@@ -136,12 +141,16 @@ export function setSensorMode(mode) {
     recordReading();
   }
   notify('readings', 'gate', 'station', 'sim');
+  checkTransitions();
 }
 
 /** Scenario: Camera lost. */
 export function setCameraOk(ok) {
-  getState().station.camera_ok = ok;
+  const S = getState();
+  const wasOk = S.station.camera_ok;
+  S.station.camera_ok = ok;
   notify('station', 'sim');
+  if (wasOk && !ok) addNotification('sensor', 'watch', { event: 'camera' });
 }
 
 /** Scenario: Gate toggle. Flips the SIMULATED gate state. The app itself has no gate control. */
