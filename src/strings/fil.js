@@ -30,6 +30,46 @@ const t = {
     langEnName: 'English',
     langFilName: 'Filipino',
   },
+  notifications: {
+    bellLabel: (count) => (count > 0 ? `Mga abiso, ${n(count)} ang hindi pa nababasa` : 'Mga abiso, walang hindi pa nababasa'), // TODO(review)
+    badge: (count) => (count > 9 ? `${n(9)}+` : n(count)),
+    panelLabel: 'Mga abiso', // TODO(review): or "Mga notipikasyon"
+    title: 'Mga abiso', // TODO(review): same as panelLabel
+    markAllRead: 'Markahang nabasa na lahat', // TODO(review)
+    listLabel: 'Listahan ng mga abiso',
+    footer: 'Status ng sistema (mga demo threshold). Simulasyon.',
+    emptyTitle: 'Walang bagong alerto',
+    unread: 'Hindi pa nabasa',
+    info: 'Impormasyon', // TODO(review): or keep "Info"
+    prepare: 'Ihanda ang alerto',
+    viewLog: 'Tingnan sa Log ng mga alerto',
+    status: {
+      title: (label) => `Status ng sistema: ${label}`,
+      message: (from, to, cm) => `${n(cm)} cm ang antas ng ilog. Nagbago ang status ng sistema mula ${from} patungong ${to}.`, // TODO(review)
+    },
+    suggestion: {
+      titleRaise: (label) => `Iminumungkahing alerto: ${label}`, // TODO(review)
+      titleClear: 'Iminumungkahing alerto: Wala nang banta', // TODO(review)
+      messageRaise: (cm) => `${n(cm)} cm ang antas ng ilog. Ikaw ang magsusuri ng mensahe at pipindot ng Ipadala. Walang awtomatikong ipinapadala.`,
+      messageClear: (cm) => `Bumalik na sa ${n(cm)} cm ang antas ng ilog. Ikaw ang magsusuri ng mensahe at pipindot ng Ipadala. Walang awtomatikong ipinapadala.`,
+    },
+    sensor: {
+      staleTitle: 'Luma na ang basa ng sensor',
+      staleMessage: 'Mas luma ang basa kaysa inaasahan. Huwag ituring na live.',
+      offlineTitle: 'Offline ang sensor',
+      offlineMessage: 'Walang signal ang sensor. Kupas ang pagpapakita ng huling kilalang halaga.', // TODO(review)
+      cameraTitle: 'Nawala ang signal ng camera', // TODO(review)
+      cameraMessage: 'Walang signal ang camera. Suriin muna ang camera bago umasa rito.', // TODO(review)
+    },
+    gate: {
+      title: (state) => `Floodgate: ${state}`,
+      message: 'Simulasyon lang ang pagbabagong ito ng estado ng floodgate. Ipinapakita lang ito ng app at hindi nito makokontrol ang floodgate.', // TODO(review)
+    },
+    alertSent: {
+      title: (level) => `Naipadala ang alerto: ${level}`, // TODO(review)
+      message: (count) => `Simulasyon ng pagpapadala sa ${n(count)} tatanggap.`, // TODO(review)
+    },
+  },
   common: {
     simulated: 'Simulasyon', // TODO(review): "Simulasyon" as a tag; alternative "Simulado"
     close: 'Isara',

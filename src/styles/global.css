@@ -75,11 +75,10 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .topbar-place { display: flex; align-items: center; gap: var(--space-3); }
 .place-name { font-size: 1.125rem; font-weight: 700; }
-/* Right side of the top bar: time and date, the EN | FIL toggle, then room for the notification bell (step 5).
+/* Right side of the top bar: time and date, the EN | FIL toggle, then the notification bell at the far right.
    Rows wrap instead of overflowing when the page is narrowed (for example by the open Demo tools panel). */
 .topbar { flex-wrap: wrap; row-gap: var(--space-2); }
 .topbar-controls { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-left: auto; }
-.topbar-bell-slot { flex: none; width: 40px; height: 40px; }
 .lang-toggle { flex: none; }
 .topbar-time { text-align: right; display: flex; flex-direction: column; }
 .clock { font-size: 1.25rem; font-weight: 700; line-height: 1.3; font-variant-numeric: tabular-nums; }
@@ -294,6 +293,29 @@ input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; accent-
 /* ---------- Control ---------- */
 .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); align-items: start; }
 .gate-row { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+
+/* ---------- Notification bell and panel (PLAN.md Section 6) ---------- */
+.bell { position: relative; flex: none; }
+.bell-btn { position: relative; width: 40px; }
+/* The badge is a count, never a severity: --accent with --on-accent, no status color. */
+.bell-badge { position: absolute; top: -6px; right: -6px; min-width: 20px; height: 20px; padding: 0 4px; border: 2px solid var(--surface); border-radius: 10px; background: var(--accent); color: var(--on-accent); font-size: 0.75rem; font-weight: 700; line-height: 16px; text-align: center; font-variant-numeric: tabular-nums; pointer-events: none; }
+.notif-panel { position: absolute; top: calc(100% + var(--space-2)); right: 0; z-index: 45; width: 380px; max-width: calc(100vw - var(--space-8)); max-height: min(520px, calc(100vh - 120px)); display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-2); text-align: left; outline: none; }
+.notif-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); }
+.notif-heading { font-size: 1.0625rem; font-weight: 700; line-height: 1.3; }
+.notif-list { flex: 1; min-height: 0; overflow-y: auto; }
+.notif-item { display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--border); }
+.notif-item.is-unread { background: var(--surface-strong); }
+.notif-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.notif-head .badge { white-space: normal; }
+.notif-unread { display: inline-flex; align-items: center; }
+.notif-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--primary); }   /* a dot plus the hidden text "Unread", never color alone */
+.notif-title { font-size: 0.9375rem; font-weight: 600; line-height: 1.35; overflow-wrap: anywhere; }
+.notif-item.is-unread .notif-title { font-weight: 700; }
+.notif-text { font-size: 0.875rem; line-height: 1.45; overflow-wrap: anywhere; }
+.notif-actions { margin-top: var(--space-2); }
+.notif-link { display: inline-flex; align-items: center; min-height: 40px; font-weight: 600; color: var(--text); text-decoration: underline; }   /* text color, not --primary: items can sit on --surface-strong */
+.notif-footer { padding: var(--space-3) var(--space-4); border-top: 1px solid var(--border); }
+.notif-panel .state { padding: var(--space-6); }
 
 /* ---------- Dialogs, drawer, states ---------- */
 .overlay { position: fixed; inset: 0; background: var(--overlay); display: flex; align-items: center; justify-content: center; z-index: 50; padding: var(--space-6); }
