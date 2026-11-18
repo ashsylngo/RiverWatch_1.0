@@ -202,30 +202,19 @@ input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; accent-
 .home-grid { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-4); align-items: start; }
 .home-side { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
 .camera-box {
-  aspect-ratio: 16 / 9; background: var(--surface-strong); border: 2px dashed var(--border); border-radius: var(--radius-md);
+  aspect-ratio: 16 / 9; background: var(--surface-strong); border: 1px solid var(--border); border-radius: var(--radius-md);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-3);
   color: var(--text-muted); text-align: center; padding: var(--space-4);
 }
 .camera-box.is-off { background: var(--bg); }
-/* Sample photos: five real photos cross-fade. A placeholder, never styled as live (no LIVE or REC badge, no timestamp). */
+/* Camera photos cross-fade, one after another, with no end. No LIVE or REC badge and no timestamp. */
 .camera-box-photos { position: relative; overflow: hidden; padding: 0; border: 1px solid var(--border); }
 .camera-photo {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 65%;
   opacity: 0; transition: opacity 1200ms ease-in-out; user-select: none;
 }
 .camera-photo.is-active { opacity: 1; }
-.camera-caption {
-  position: absolute; left: var(--space-3); bottom: var(--space-3); max-width: calc(100% - var(--space-6));
-  background: var(--surface); color: var(--text); border-radius: var(--radius-sm); box-shadow: var(--shadow-1);
-  padding: var(--space-1) var(--space-3); font-size: 0.8125rem; font-weight: 600;
-}
-.camera-controls { display: flex; align-items: center; gap: var(--space-4); margin-top: var(--space-3); flex-wrap: wrap; }
-.camera-dots { display: inline-flex; gap: var(--space-2); }
-.camera-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
-.camera-dot.is-active { background: var(--primary); }
-.camera-count { font-size: 0.8125rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
 .camera-line { font-size: 1rem; font-weight: 600; color: var(--text-muted); max-width: 460px; }
-.camera-sub { font-size: 0.8125rem; }
 .level { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--space-3); flex-wrap: wrap; }
 .level.is-dim, .gate-row.is-dim { opacity: 0.55; }
 .level-value { display: flex; align-items: baseline; gap: var(--space-2); }

@@ -115,15 +115,8 @@ const t = {
       title: 'Monitoring camera: Ilog',
       online: 'Online',
       offline: 'Offline',
-      placeholderLine: 'Placeholder lang ng camera feed (demo). Dito lalabas ang live stream.',
-      placeholderLabel: 'Placeholder ng camera feed (demo)',
       noSignal: 'Walang signal ang camera',
-      samplePhotos: 'Mga sample na larawan (placeholder, hindi live)', // TODO(review)
-      slideshowLabel: 'Mga sample na larawan ng ilog, placeholder para sa camera feed', // TODO(review)
-      photoAlt: (n, total) => `Sample na larawan ${n} sa ${total} ng ilog mula sa tulay (placeholder, hindi live)`, // TODO(review)
-      pause: 'I-pause', // TODO(review)
-      play: 'I-play', // TODO(review)
-      count: (n, total) => `Larawan ${n} sa ${total}`, // TODO(review)
+      photoAlt: 'Tanaw ng monitoring camera sa ilog mula sa tulay', // TODO(review)
     },
     level: {
       title: 'Antas ng tubig',
@@ -405,7 +398,7 @@ const t = {
     makeOffline: 'Gawing Offline',
     restore: 'Ibalik',
     camera: 'Nawala ang camera',
-    cameraHint: 'Gagawing walang signal ang camera placeholder.',
+    cameraHint: 'Gagawing walang signal ang camera.',
     cameraBtn: 'Nawala ang camera',
     gate: 'Palitan ang floodgate',
     gateHint: 'Ililipat ang estado ng floodgate sa simulasyon at magdaragdag ng event sa timeline. Walang kontrol sa floodgate ang app.',
