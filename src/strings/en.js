@@ -116,6 +116,12 @@ const t = {
       placeholderLine: 'Camera feed placeholder (demo). A live stream will appear here.',
       placeholderLabel: 'Camera feed placeholder (demo)',
       noSignal: 'No camera signal',
+      samplePhotos: 'Sample photos (placeholder, not live)',
+      slideshowLabel: 'Sample photos of the river, placeholder for the camera feed',
+      photoAlt: (n, total) => `Sample photo ${n} of ${total} of the river seen from the bridge (placeholder, not live)`,
+      pause: 'Pause',
+      play: 'Play',
+      count: (n, total) => `Photo ${n} of ${total}`,
     },
     level: {
       title: 'Water level',

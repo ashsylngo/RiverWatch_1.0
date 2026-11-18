@@ -118,6 +118,12 @@ const t = {
       placeholderLine: 'Placeholder lang ng camera feed (demo). Dito lalabas ang live stream.',
       placeholderLabel: 'Placeholder ng camera feed (demo)',
       noSignal: 'Walang signal ang camera',
+      samplePhotos: 'Mga sample na larawan (placeholder, hindi live)', // TODO(review)
+      slideshowLabel: 'Mga sample na larawan ng ilog, placeholder para sa camera feed', // TODO(review)
+      photoAlt: (n, total) => `Sample na larawan ${n} sa ${total} ng ilog mula sa tulay (placeholder, hindi live)`, // TODO(review)
+      pause: 'I-pause', // TODO(review)
+      play: 'I-play', // TODO(review)
+      count: (n, total) => `Larawan ${n} sa ${total}`, // TODO(review)
     },
     level: {
       title: 'Antas ng tubig',
