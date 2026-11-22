@@ -55,10 +55,10 @@ function autoGate() {
   const sim = S.sim;
   if (sim.mode === 'ramp' && S.gate.state === 'open' && sim.level >= S.settings.warning_cm) {
     sim.autoClosed = true;
-    addGateEvent('closed', 'Simulated: closed when the level reached Warning (River rising scenario)', 'riverRising', false);
+    addGateEvent('closed', 'Closed when the level reached Warning', 'riverRising', false);
   } else if (sim.mode === 'fall' && sim.autoClosed && S.gate.state === 'closed' && sim.level < S.settings.watch_cm) {
     sim.autoClosed = false;
-    addGateEvent('open', 'Simulated: reopened when the level fell below Watch (Back to normal scenario)', 'backToNormal', false);
+    addGateEvent('open', 'Reopened when the level fell below Watch', 'backToNormal', false);
   }
 }
 
@@ -158,7 +158,7 @@ export function toggleSimulatedGate() {
   const S = getState();
   const next = S.gate.state === 'open' ? 'closed' : 'open';
   S.sim.autoClosed = false;
-  addGateEvent(next, 'Simulated: toggled from Demo tools', 'demoToggle', true);
+  addGateEvent(next, 'Gate state changed', 'demoToggle', true);
 }
 
 export function setTools(patch) {

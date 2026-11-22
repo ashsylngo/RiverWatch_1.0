@@ -1,14 +1,18 @@
 // Versioned browser storage. Every access is in try/catch.
 // If storage is blocked, the app keeps working and simply does not save.
-const KEY = 'riverwatch.demo.v1';
+const KEY = 'riverwatch.data.v2';
+// Earlier builds saved their data under this key. It is removed on load so old saved data never shows up.
+const LEGACY_KEY = 'riverwatch.demo.v1';
 const SPLASH_KEY = `${KEY}.splash`;
-// The UI language is stored apart from the demo data, so Reset demo never changes it.
+// The UI language is stored apart from the app data, so Reset demo never changes it.
 const LANG_KEY = 'riverwatch.lang.v1';
 
 let splashSeenInMemory = false;
 
 export function loadState() {
   try {
+    window.localStorage.removeItem(LEGACY_KEY);
+    window.sessionStorage.removeItem(`${LEGACY_KEY}.splash`);
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw);

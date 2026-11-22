@@ -6,7 +6,7 @@ export function normalizePhone(value) {
   return /^09\d{9}$/.test(digits) ? digits : null;
 }
 
-/** "09•• ••• 1234": only the last four characters are shown. Works for masked placeholders too. */
+/** "09•• ••• 1234": only the last four characters are shown. */
 export function maskPhone(value) {
   const compact = String(value ?? '').replace(/\s+/g, '');
   const last4 = compact.slice(-4);

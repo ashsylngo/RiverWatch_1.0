@@ -1,4 +1,4 @@
-// Deterministic seed generator. Same shape on every load; timestamps are relative to the load time.
+// Deterministic data generator. Same shape on every load; timestamps are relative to the load time.
 import { mulberry32 } from './prng.js';
 import { compose, hotlinesText } from '../../sms.js';
 import { tierFor } from '../../status.js';
@@ -87,8 +87,25 @@ const GATE_PLAN = [
   [216, 'open', 'Routine function test: reopened'],
 ];
 
-const FIRST_NAMES = ['Maria', 'Jose', 'Ana', 'Juan', 'Liza', 'Pedro', 'Rosa', 'Carlo'];
+// 48 residents, 8 per purok (Purok 1 first).
+const RESIDENT_NAMES = [
+  'Maricel Dimaculangan', 'Ernesto Macatangay', 'Josefina Magsino', 'Ronaldo Atienza', 'Lorna Villanueva', 'Benjie Mendoza', 'Teresita Aguilar', 'Danilo Landicho',
+  'Cecilia Panganiban', 'Rolando Katigbak', 'Marites Marasigan', 'Arnel Comia', 'Rowena Ilagan', 'Gerardo Bautista', 'Evelyn De Castro', 'Alfredo Magpantay',
+  'Norma Ramos', 'Reynaldo Reyes', 'Glenda Hernandez', 'Mario Maralit', 'Imelda Dimayuga', 'Noel Cuevas', 'Susana Silva', 'Jun Perez',
+  'Corazon Cabrera', 'Rodel Malabanan', 'Analyn Lat', 'Edgardo Manalo', 'Divina Pasia', 'Virgilio Arellano', 'Rosalinda Dela Rosa', 'Joel Mercado',
+  'Luzviminda Garcia', 'Renato Tolentino', 'Maribel Salazar', 'Orlando Dizon', 'Jocelyn Alcantara', 'Fernando Zapanta', 'Nenita Evangelista', 'Rommel Cruz',
+  'Dolores Maranan', 'Samuel Ocampo', 'Leonora Banaag', 'Efren Caraan', 'Gemma Peralta', 'Victor Quiambao', 'Erlinda Sandoval', 'Marlon Gonzales',
+];
 const INACTIVE = new Set([5, 11, 18, 23, 29, 36, 42, 47]);
+
+const MOBILE_PREFIXES = ['0917', '0918', '0927', '0905', '0956', '0995', '0929', '0966'];
+
+// Deterministic 11-digit mobile number (09XX followed by 7 digits).
+function residentPhone(i) {
+  const rng = mulberry32(7000 + i);
+  const tail = String(Math.floor(rng() * 9000000) + 1000000);
+  return `${MOBILE_PREFIXES[i % MOBILE_PREFIXES.length]}${tail}`;
+}
 
 function generateResidents(nowMs) {
   const createdAt = iso(nowMs - 40 * 24 * HOUR);
@@ -97,10 +114,10 @@ function generateResidents(nowMs) {
     const purok = Math.floor(i / 8) + 1;
     return {
       id: `r-${n}`,
-      name: `${FIRST_NAMES[i % FIRST_NAMES.length]} Demo ${pad(n, 2)}`,
+      name: RESIDENT_NAMES[i],
       address: `Purok ${purok}, ${barangay.name}`,
       purok,
-      phone: `09XX XXX ${pad(n, 4)}`,
+      phone: residentPhone(i),
       active: !INACTIVE.has(n),
       created_at: createdAt,
     };
@@ -151,7 +168,7 @@ function generateAlerts(nowMs, residents) {
       level: p.level,
       created_at: iso(sentAt - 2 * 60 * 1000),
       sent_at: iso(sentAt),
-      sent_by: 'Demo Official',
+      sent_by: 'Barangay Official',
       language: p.language,
       message,
       evacuation_text: evacuationCenters[p.evac].name,

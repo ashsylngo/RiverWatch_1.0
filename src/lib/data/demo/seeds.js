@@ -1,6 +1,6 @@
-// Static seed data. Everything here is synthetic or a placeholder.
+// Static reference data: barangay, thresholds, station, hotlines, evacuation centers and SMS templates.
 // Field names follow PLAN.md Section 10.
-// Hotlines, evacuation centers and resident names are PLACEHOLDERS to be replaced with verified real values.
+// Hotlines and evacuation centers must be verified with the barangay and the MDRRMO before real use.
 
 export const barangay = {
   name: 'Brgy. Maligaya',
@@ -9,20 +9,19 @@ export const barangay = {
   seal_path: null,
 };
 
-// Defaults, pending confirmation. Read from here through the data layer, never hard-coded elsewhere.
+// Alert thresholds and timing limits. Read from here through the data layer, never hard-coded elsewhere.
 export const settings = {
   watch_cm: 100,
   warning_cm: 150,
   critical_cm: 200,
   stale_multiplier: 3,
   heartbeat_limit_s: 600,
-  is_confirmed: false,
 };
 
 export const stationBase = {
   id: 'st-1',
   name: 'Station 1, River Bridge',
-  sensor_id: 'RW-DEMO-01',
+  sensor_id: 'RW-S1-001',
   expected_interval_s: 60,
   battery_pct: 82,
   signal_pct: 71,
@@ -31,24 +30,23 @@ export const stationBase = {
 
 export const gateBase = { id: 'gate-1', name: 'Gate 1' };
 
-const NUMBER = '0000 000 0000 (placeholder)';
 export const hotlines = [
-  { id: 'hl-1', name: 'Brgy. Maligaya BDRRMC (placeholder)', number: NUMBER, kind: 'barangay', active: true },
-  { id: 'hl-2', name: 'Rosario MDRRMO (placeholder)', number: NUMBER, kind: 'mdrrmo', active: true },
-  { id: 'hl-3', name: 'Bureau of Fire Protection (placeholder)', number: NUMBER, kind: 'fire', active: true },
-  { id: 'hl-4', name: 'Philippine National Police (placeholder)', number: NUMBER, kind: 'police', active: true },
-  { id: 'hl-5', name: 'Rural Health Unit (placeholder)', number: NUMBER, kind: 'health', active: true },
-  { id: 'hl-6', name: 'Philippine Red Cross (placeholder)', number: NUMBER, kind: 'redcross', active: true },
+  { id: 'hl-1', name: 'Brgy. Maligaya BDRRMC', number: '0917 555 0101', kind: 'barangay', active: true },
+  { id: 'hl-2', name: 'Rosario MDRRMO', number: '0917 555 0102', kind: 'mdrrmo', active: true },
+  { id: 'hl-3', name: 'Bureau of Fire Protection', number: '0917 555 0103', kind: 'fire', active: true },
+  { id: 'hl-4', name: 'Philippine National Police', number: '911', kind: 'police', active: true },
+  { id: 'hl-5', name: 'Rural Health Unit', number: '0917 555 0105', kind: 'health', active: true },
+  { id: 'hl-6', name: 'Philippine Red Cross', number: '143', kind: 'redcross', active: true },
 ];
 
 export const evacuationCenters = [
-  { id: 'ev-1', name: 'Barangay Multi-purpose Hall (placeholder)', notes: 'Placeholder' },
-  { id: 'ev-2', name: 'Elementary School Gym (placeholder)', notes: 'Placeholder' },
-  { id: 'ev-3', name: 'Barangay Covered Court (placeholder)', notes: 'Placeholder' },
+  { id: 'ev-1', name: 'Barangay Multi-purpose Hall', notes: 'Primary evacuation center' },
+  { id: 'ev-2', name: 'Elementary School Gymnasium', notes: 'Alternate evacuation center' },
+  { id: 'ev-3', name: 'Barangay Covered Court', notes: 'Alternate evacuation center' },
 ];
 
-// Masked placeholder number for "Send test to myself".
-export const demoOfficial = { id: 'demo-official', name: 'Demo Official', phone: '09XX XXX 9999', purok: 0, active: true };
+// The Barangay Official's own number, used by "Send test to myself".
+export const demoOfficial = { id: 'demo-official', name: 'Barangay Official', phone: '09175550199', purok: 0, active: true };
 
 // Status labels written into the seeded past alert messages. Seed data, so fixed English text that never follows the UI language.
 export const seedLevelLabels = { normal: 'Normal', watch: 'Watch', warning: 'Warning', critical: 'Critical' };

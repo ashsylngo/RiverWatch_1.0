@@ -37,7 +37,7 @@ const t = {
     title: 'Mga abiso', // TODO(review): same as panelLabel
     markAllRead: 'Markahang nabasa na lahat', // TODO(review)
     listLabel: 'Listahan ng mga abiso',
-    footer: 'Status ng sistema (mga demo threshold). Simulasyon.',
+    footer: 'Batay sa status ng sistema. Hindi ito opisyal na babala.',
     emptyTitle: 'Walang bagong alerto',
     unread: 'Hindi pa nabasa',
     info: 'Impormasyon', // TODO(review): or keep "Info"
@@ -63,15 +63,14 @@ const t = {
     },
     gate: {
       title: (state) => `Floodgate: ${state}`,
-      message: 'Simulasyon lang ang pagbabagong ito ng estado ng floodgate. Ipinapakita lang ito ng app at hindi nito makokontrol ang floodgate.', // TODO(review)
+      message: 'Nagbago ang estado ng floodgate. Ipinapakita lang ito ng app at hindi nito makokontrol ang floodgate.', // TODO(review)
     },
     alertSent: {
       title: (level) => `Naipadala ang alerto: ${level}`, // TODO(review)
-      message: (count) => `Simulasyon ng pagpapadala sa ${n(count)} tatanggap.`, // TODO(review)
+      message: (count) => `Naipadala sa ${n(count)} tatanggap.`, // TODO(review)
     },
   },
   common: {
-    simulated: 'Simulasyon', // TODO(review): "Simulasyon" as a tag; alternative "Simulado"
     close: 'Isara',
     cancel: 'Kanselahin',
     save: 'I-save',
@@ -79,7 +78,7 @@ const t = {
     loading: 'Naglo-load...',
     retry: 'Subukan muli',
     errorTitle: 'Hindi ma-load ang datos',
-    errorText: 'Nabigo ang demo data call. Kung naka-on ang error switch sa Mga gamit sa demo, i-off ito at subukan muli.', // TODO(review)
+    errorText: 'May nangyaring mali sa pag-load ng datos na ito. Suriin ang koneksyon at subukan muli.', // TODO(review)
     previous: 'Nakaraan',
     next: 'Susunod',
     pageOf: (p, total) => `Pahina ${n(p)} ng ${n(total)}`,
@@ -121,16 +120,16 @@ const t = {
     level: {
       title: 'Antas ng tubig',
       unit: 'cm',
-      statusLabel: 'Status ng sistema (mga demo threshold)',
+      statusLabel: 'Status ng sistema',
       updated: (age, time) => `Huling basa: ${age} (${time})`,
       staleNote: 'Luma na ang basang ito. Huwag ituring na live.',
       offlineNote: 'Walang signal ang sensor. Kupas ang pagpapakita ng huling kilalang halaga.', // TODO(review)
-      thresholds: (w, wa, c) => `Mga demo threshold: Bantay ${n(w)} cm, Babala ${n(wa)} cm, Kritikal ${n(c)} cm.`,
-      unconfirmed: 'Mga default pa lang, hinihintay ang kumpirmasyon. Hindi ito opisyal na babala.',
+      thresholds: (w, wa, c) => `Mga threshold ng alerto: Bantay ${n(w)} cm, Babala ${n(wa)} cm, Kritikal ${n(c)} cm.`,
+      advisory: 'Kasangkapan sa pagsubaybay para sa mga opisyal ng barangay. Hindi ito opisyal na babala ng PAGASA, NDRRMC o MDRRMO.', // TODO(review)
     },
     trend: {
       title: 'Trend',
-      caption: 'Nakaraang 6 na oras, kasama ang mga demo threshold',
+      caption: 'Nakaraang 6 na oras, kasama ang mga threshold ng alerto',
       chartLabel: (cm) => `Line chart ng antas ng tubig sa nakaraang 6 na oras. Kasalukuyang antas: ${n(cm)} cm.`,
     },
     sensor: {
@@ -170,11 +169,11 @@ const t = {
     colState: 'Estado',
     colLevel: 'Antas (cm)',
     colNote: 'Tala',
-    // Mga tala na isinusulat ng Mga gamit sa demo sa kasaysayan ng floodgate (Ingles ang naka-save na teksto; data ang mga seeded na tala).
+    // Mga tala na isinusulat sa kasaysayan ng floodgate kapag nagbago ang estado nito (Ingles ang naka-save na teksto; data ang mga seeded na tala).
     notes: {
-      riverRising: 'Simulasyon: isinara nang umabot sa Babala ang antas (scenario ng pagtaas ng ilog)', // TODO(review)
-      backToNormal: 'Simulasyon: muling binuksan nang bumaba sa Bantay ang antas (scenario ng pagbabalik sa normal)', // TODO(review)
-      demoToggle: 'Simulasyon: pinalitan mula sa Mga gamit sa demo',
+      riverRising: 'Isinara nang umabot sa Babala ang antas', // TODO(review)
+      backToNormal: 'Muling binuksan nang bumaba sa Bantay ang antas', // TODO(review)
+      demoToggle: 'Nagbago ang estado ng floodgate',
     },
   },
   control: {
@@ -211,7 +210,7 @@ const t = {
     clearFilters: 'I-clear ang mga filter',
     emptyNoneTitle: 'Wala pang residente',
     emptyNoneText: 'Magdagdag ng residente o mag-import ng CSV file.',
-    note: 'Demo: sa browser na ito lang nase-save ang mga pagbabago. Personal na impormasyon ang datos ng residente (RA 10173).',
+    note: 'Personal na impormasyon ang datos ng residente at protektado ito sa ilalim ng RA 10173 (Data Privacy Act).',
     actionError: 'Hindi ito gumana. Pakisubukan muli.',
     saveError: 'Hindi ma-save. Pakisubukan muli.',
     added: (name) => `Naidagdag: ${name}.`,
@@ -232,16 +231,14 @@ const t = {
     errPurok: 'Pumili ng purok mula 1 hanggang 6.',
     errPhone: 'Maglagay ng 11 digit na nagsisimula sa 09.',
     deleteTitle: 'Burahin ang residente?',
-    deleteText: (name) => `Burahin si ${name} sa demo na listahan? Maibabalik ang orihinal na listahan gamit ang I-reset ang demo.`, // TODO(review): "orihinal na listahan" for the seeded list
+    deleteText: (name) => `Burahin si ${name} sa listahan ng mga residente? Hindi na ito maibabalik.`, // TODO(review)
     deleteConfirm: 'Burahin',
     importTitle: 'Mag-import ng mga residente mula sa CSV',
-    importIntro: 'Mga column: name, address, purok, phone. Sa browser na ito lang binabasa ang file. Walang ina-upload.',
+    importIntro: 'Mga column: name, address, purok, phone. I-download ang template para makita ang format.', // TODO(review)
     importFile: 'CSV file',
     importPaste: 'O i-paste ang CSV text',
     importPreview: 'I-preview',
-    importUseSample: 'Gumamit ng sample na may isang maling row',
-    // CSV sample text is data: the headers stay in English so the file can be imported again.
-    importSample: 'name,address,purok,phone\nAna Import 01,"Purok 2, Brgy. Maligaya",2,09000000001\nJose Import 02,"Purok 9, Brgy. Maligaya",9,09000000002\nLiza Import 03,,3,09000000003',
+    importTemplate: 'I-download ang template',
     importValid: (count) => `${n(count)} wastong row`,
     importErrors: (count) => `${n(count)} row na may error`,
     importLine: (line, msg) => `Linya ${n(line)}: ${msg}`,
@@ -267,7 +264,7 @@ const t = {
     level: 'Antas ng alerto',
     levelHint: 'Kapag pumili ng antas, mapupunan ang mensahe mula sa template nito.',
     language: 'Wika',
-    languageHint: 'Draft pa lang ang Filipino at kailangan pang suriin.',
+    languageHint: 'Ang wika ng SMS na ipapadala.', // TODO(review)
     langEn: 'Ingles',
     langFil: 'Filipino',
     message: 'Nilalaman ng mensahe',
@@ -290,12 +287,12 @@ const t = {
     recipientCount: (count) => `${n(count)} tatanggap`,
     previewTitle: 'Preview ng SMS',
     previewLabel: 'Preview ng SMS',
-    previewFrom: (b) => `Mula sa: ${b} (demo)`,
+    previewFrom: (b) => `Mula sa: ${b}`,
     previewEmpty: '(walang laman ang mensahe)',
     chars: (count) => `${n(count)} karakter`,
     segments: (count, enc) => `${n(count)} SMS segment (tantiya, ${enc === 'gsm' ? 'karaniwang karakter' : 'espesyal na karakter'})`, // TODO(review)
-    willSendTo: (count) => `Ipapadala sa ${n(count)} tatanggap (simulasyon).`,
-    send: 'Ipadala ang alerto (simulasyon)',
+    willSendTo: (count) => `Ipapadala sa ${n(count)} tatanggap.`,
+    send: 'Ipadala ang alerto',
     sendTest: 'Magpadala ng test sa sarili',
     noRecipients: 'Pumili ng kahit isang purok na may aktibong residente.',
     lastSent: (level, ago, delivered, total) => `Huling alertong naipadala: ${level}, ${ago}, ${n(delivered)}/${n(total)} ang naihatid.`,
@@ -303,9 +300,9 @@ const t = {
     confirmTitle: 'Ipadala ang alertong ito?',
     confirmTestTitle: 'Ipadala ang test na ito sa sarili?',
     confirmMessage: 'Mensahe',
-    confirmSelf: 'Ang Demo Official lang (1 tatanggap)',
-    confirmSimulated: 'Simulasyon ito. Walang totoong SMS na ipapadala.',
-    confirmSend: 'Ipadala (simulasyon)',
+    confirmSelf: 'Ang numero mo lang (1 tatanggap)',
+    confirmNote: 'Matatanggap ng bawat tatanggap ang mensaheng ito bilang SMS.', // TODO(review)
+    confirmSend: 'Ipadala',
     sendError: 'Hindi maipadala. Pakisubukan muli.',
   },
   delivery: {
@@ -319,7 +316,7 @@ const t = {
     status: { queued: 'Nakapila', sent: 'Naipadala', delivered: 'Naihatid', failed: 'Nabigo' },
     retryTag: (attempt) => `(pagsubok ${n(attempt)})`,
     retriedTag: '(sinubukang muli)',
-    progress: (done, total) => `Nagpapadala (simulasyon): ${n(done)} sa ${n(total)} ang tapos na`,
+    progress: (done, total) => `Nagpapadala: ${n(done)} sa ${n(total)} ang tapos na`,
     progressLabel: 'Progreso ng paghahatid',
     summary: (delivered, failed, retried) => `Naihatid ${n(delivered)}, Nabigo ${n(failed)}${retried ? ' (sinubukang muli)' : ''}`,
     counts: {
@@ -329,7 +326,7 @@ const t = {
       failed: (count) => `Nabigo ${n(count)}`,
     },
     missingTitle: 'Hindi makita ang alerto',
-    missingText: 'Wala na sa demo data ang alertong ito.',
+    missingText: 'Hindi makita ang alertong ito.',
   },
   history: {
     title: 'Kasaysayan',
@@ -349,7 +346,7 @@ const t = {
     alertsRangeNote: (tests) => `sa saklaw na ito${tests ? `, dagdag ang ${n(tests)} pagsubok` : ''}`,
     chartTitle: 'Antas ng tubig',
     chartLabel: (range) => `Area chart ng antas ng tubig sa loob ng ${range}, may mga linya ng Bantay, Babala at Kritikal.`,
-    chartNote: 'Ang may kulay na banda at putol-putol na linya ay ang mga demo threshold (mga default, hinihintay ang kumpirmasyon).',
+    chartNote: 'Ang may kulay na banda at putol-putol na linya ay ang mga threshold ng Bantay, Babala at Kritikal.', // TODO(review)
     tableTitle: 'Mga pagbasa',
     tableCaption: 'Mga pagbasa ng antas ng tubig',
     colTime: 'Oras',
@@ -360,7 +357,6 @@ const t = {
     alertsCaption: 'Mga naipadalang alerto',
     alertsEmptyTitle: 'Wala pang alerto',
     alertsEmptyText: 'Lalabas dito ang mga alertong ipapadala mo.',
-    alertsNote: 'Simulasyon lahat ng alerto at paghahatid sa demo na ito.',
     colSent: 'Naipadala',
     colAlertLevel: 'Antas',
     colLanguage: 'Wika',
