@@ -4,7 +4,7 @@ import { Modal } from '../../components/ui/Modal.jsx';
 import Button from '../../components/ui/Button.jsx';
 import Table from '../../components/ui/Table.jsx';
 import Icon from '../../components/ui/Icon.jsx';
-import { MAX_CSV_BYTES, parseResidentsCsv, csvErrorText } from '../../lib/csv.js';
+import { MAX_CSV_BYTES, parseResidentsCsv, csvErrorText, downloadCsv } from '../../lib/csv.js';
 import { maskPhone } from '../../lib/phone.js';
 import { useLocale } from '../../lib/i18n.jsx';
 
@@ -40,11 +40,8 @@ export default function ImportDialog({ defaultAddress, onImport, onClose }) {
 
   const preview = () => setResult(parseResidentsCsv(text, defaultAddress));
 
-  function useSample() {
-    setFileName('');
-    setText(t.resident.importSample);
-    setResult(parseResidentsCsv(t.resident.importSample, defaultAddress));
-  }
+  // CSV headers stay in English so the file can be imported again.
+  const downloadTemplate = () => downloadCsv('residents-template', [['name', 'address', 'purok', 'phone']]);
 
   async function confirm() {
     setBusy(true);
@@ -92,7 +89,7 @@ export default function ImportDialog({ defaultAddress, onImport, onClose }) {
         </div>
         <div className="row-gap">
           <Button variant="secondary" onClick={preview} disabled={!text.trim()}>{t.resident.importPreview}</Button>
-          <Button variant="ghost" onClick={useSample}>{t.resident.importUseSample}</Button>
+          <Button variant="ghost" icon="download" onClick={downloadTemplate}>{t.resident.importTemplate}</Button>
         </div>
       </div>
 

@@ -36,8 +36,6 @@ function Item({ item, now, onNavigate }) {
       <p className="notif-text">{message}</p>
       <p className="notif-meta small muted">
         <time dateTime={item.created_at} title={formatDateTimeSec(created, lang)}>{formatAge(now - created, t)}</time>
-        <span aria-hidden="true"> · </span>
-        <span>{t.common.simulated}</span>
       </p>
       {item.kind === 'suggestion' ? (
         <div className="notif-actions">

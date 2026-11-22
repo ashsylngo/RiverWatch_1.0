@@ -1,9 +1,8 @@
-// Live view of a SIMULATED send: queued, sent, delivered, with failures retried once.
+// Live view of a send: queued, sent, delivered, with failures retried once.
 import { getAlertDetail } from '../../lib/data/index.js';
 import { useData } from '../../lib/useData.js';
 import Card from '../../components/ui/Card.jsx';
 import DeliveryTable, { deliverySummary } from '../../components/ui/DeliveryTable.jsx';
-import { SimulatedTag } from '../../components/ui/Badge.jsx';
 import { Async, EmptyState } from '../../components/ui/States.jsx';
 import { useT } from '../../lib/i18n.jsx';
 
@@ -16,8 +15,6 @@ function PanelBody({ detail }) {
     <>
       <p className="delivery-summary" role="status">
         {finished ? t.delivery.summary(s.delivered, s.failed, s.retried) : t.delivery.progress(s.done, s.total)}
-        {' '}
-        <SimulatedTag />
       </p>
       <progress className="progress" max={s.total || 1} value={s.done} aria-label={t.delivery.progressLabel} />
       <ul className="count-chips">
@@ -35,7 +32,7 @@ export default function DeliveryPanel({ alertId }) {
   const t = useT();
   const state = useData(() => getAlertDetail(alertId), ['alerts'], [alertId]);
   return (
-    <Card title={t.delivery.title} actions={<SimulatedTag />}>
+    <Card title={t.delivery.title}>
       <Async state={state}>{(detail) => <PanelBody detail={detail} />}</Async>
     </Card>
   );

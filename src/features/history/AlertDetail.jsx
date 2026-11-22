@@ -1,10 +1,10 @@
-// Side panel with the full record of one past alert. Everything shown was simulated.
+// Side panel with the full record of one past alert.
 import { getAlertDetail } from '../../lib/data/index.js';
 import { useData } from '../../lib/useData.js';
 import { formatDateTimeSec } from '../../lib/time.js';
 import Drawer from '../../components/ui/Drawer.jsx';
 import DeliveryTable, { deliverySummary } from '../../components/ui/DeliveryTable.jsx';
-import { AlertLevelBadge, SimulatedTag } from '../../components/ui/Badge.jsx';
+import { AlertLevelBadge } from '../../components/ui/Badge.jsx';
 import { Async, EmptyState } from '../../components/ui/States.jsx';
 import { useLocale, useT } from '../../lib/i18n.jsx';
 
@@ -44,7 +44,7 @@ function Body({ detail }) {
         </ul>
       ) : <p>{t.history.notUsed}</p>}
 
-      <h3 className="detail-h">{t.history.detailDeliveries} <SimulatedTag /></h3>
+      <h3 className="detail-h">{t.history.detailDeliveries}</h3>
       {deliveries.length ? (
         <>
           <p className="muted small">{t.delivery.summary(s.delivered, s.failed, s.retried)}</p>

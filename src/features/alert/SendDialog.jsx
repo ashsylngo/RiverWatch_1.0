@@ -1,6 +1,6 @@
 // Confirmation before any send. Shows exactly what will be sent (a snapshot taken when the dialog opened).
 import { ConfirmDialog } from '../../components/ui/Modal.jsx';
-import { AlertLevelBadge, SimulatedTag } from '../../components/ui/Badge.jsx';
+import { AlertLevelBadge } from '../../components/ui/Badge.jsx';
 import { useT } from '../../lib/i18n.jsx';
 
 export default function SendDialog({ pending, busy, error, onCancel, onConfirm }) {
@@ -25,7 +25,7 @@ export default function SendDialog({ pending, busy, error, onCancel, onConfirm }
       </dl>
       <p className="confirm-label">{t.alert.confirmMessage}</p>
       <div className="sms-bubble">{pending.message}</div>
-      <p className="notice notice-sim"><SimulatedTag />{t.alert.confirmSimulated}</p>
+      <p className="confirm-note">{t.alert.confirmNote}</p>
     </ConfirmDialog>
   );
 }

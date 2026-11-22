@@ -32,7 +32,7 @@ export default function LevelCard({ d, tier, fresh }) {
       ) : null}
       <p className="muted small">
         {t.home.level.thresholds(s.watch_cm, s.warning_cm, s.critical_cm)}
-        {s.is_confirmed ? '' : ` ${t.home.level.unconfirmed}`}
+        {` ${t.home.level.advisory}`}
       </p>
     </Card>
   );

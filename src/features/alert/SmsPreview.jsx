@@ -1,6 +1,5 @@
 import Button from '../../components/ui/Button.jsx';
 import Card from '../../components/ui/Card.jsx';
-import { SimulatedTag } from '../../components/ui/Badge.jsx';
 import { alertLevelLabel } from '../../lib/status.js';
 import { timeAgo } from '../../lib/time.js';
 import { useT } from '../../lib/i18n.jsx';
@@ -9,7 +8,7 @@ export default function SmsPreview({ d, message, segments, recipientCount, canSe
   const t = useT();
   const last = d.lastSent;
   return (
-    <Card title={t.alert.previewTitle} actions={<SimulatedTag />}>
+    <Card title={t.alert.previewTitle}>
       <div className="phone" aria-label={t.alert.previewLabel}>
         <div className="phone-top">{t.alert.previewFrom(d.barangay.name)}</div>
         <div className="sms-bubble">{message.trim() ? message : t.alert.previewEmpty}</div>

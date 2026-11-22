@@ -7,7 +7,7 @@ import { useLocale } from '../../lib/i18n.jsx';
 export default function SensorCard({ station, fresh }) {
   const { t, lang, num } = useLocale();
   return (
-    <Card title={t.control.sensorTitle} actions={<span className="chip chip-note">{t.common.simulated}</span>}>
+    <Card title={t.control.sensorTitle}>
       <dl className="kv">
         <dt><Icon name="battery" size={16} />{t.home.sensor.battery}</dt>
         <dd>{`${num(station.battery_pct)}%`}</dd>

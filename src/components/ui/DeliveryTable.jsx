@@ -1,4 +1,4 @@
-// Per-recipient delivery list and summary. Everything it shows is SIMULATED.
+// Per-recipient delivery list and summary.
 import Table from './Table.jsx';
 import { DeliveryStatus } from './Badge.jsx';
 import { maskPhone } from '../../lib/phone.js';

@@ -57,7 +57,7 @@ export function GateStateBadge({ state, large = false }) {
   );
 }
 
-/** Simulated delivery status for one recipient. */
+/** Delivery status for one recipient. */
 export function DeliveryStatus({ status, attempts }) {
   const t = useT();
   const map = {
@@ -76,9 +76,4 @@ export function DeliveryStatus({ status, attempts }) {
       {attempts > 1 && (status === 'delivered' || status === 'failed') ? ` ${t.delivery.retriedTag}` : ''}
     </span>
   );
-}
-
-export function SimulatedTag() {
-  const t = useT();
-  return <span className="badge badge-neutral badge-sim">{t.common.simulated}</span>;
 }

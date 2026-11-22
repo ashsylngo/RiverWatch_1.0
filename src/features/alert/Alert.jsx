@@ -1,4 +1,4 @@
-// Alert tab: SMS specifications on the left, preview and simulated send on the right.
+// Alert tab: SMS specifications on the left, preview and send on the right.
 // The app suggests; the official reviews the message and confirms every send.
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';

@@ -188,7 +188,6 @@ input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; accent-
 .fresh-stale { background: var(--surface); color: var(--fresh-stale-fg); border-color: var(--fresh-stale-fg); border-width: 2px; }
 .fresh-offline { background: var(--surface); color: var(--fresh-off-fg); border-color: var(--fresh-off-fg); border-style: dashed; }
 .badge-neutral, .badge-gate { background: var(--surface-strong); color: var(--text); border-color: var(--text-muted); }
-.badge-sim { font-size: 0.75rem; }
 .chip-note { background: var(--surface-strong); color: var(--text-muted); border-color: var(--border); font-weight: 600; }
 .chip-live { background: var(--surface); color: var(--fresh-live-fg); border-color: var(--fresh-live-fg); }
 .chip-off { background: var(--surface); color: var(--fresh-off-fg); border-color: var(--fresh-off-fg); border-style: dashed; }
@@ -196,7 +195,7 @@ input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; accent-
 .notice-stale { color: var(--fresh-stale-fg); }
 .notice-off { color: var(--fresh-off-fg); }
 .notice-ok { color: var(--status-normal-fg); }
-.notice-sim { margin-top: var(--space-3); color: var(--text-muted); }
+.confirm-note { margin-top: var(--space-3); color: var(--text-muted); }
 
 /* ---------- Home ---------- */
 .home-grid { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-4); align-items: start; }

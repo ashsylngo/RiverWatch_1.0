@@ -61,7 +61,6 @@ export default function AlertsLog() {
                 </tbody>
               </Table>
             )}
-            <p className="muted small table-note">{t.history.alertsNote}</p>
             {openId ? <AlertDetail alertId={openId} onClose={() => setOpenId(null)} /> : null}
           </Card>
         );
